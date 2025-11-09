@@ -2090,10 +2090,10 @@
     "pCategory": "Others"
   },
   {
-    "id": 1762666867124,
+    "id": 1762668655670,
     "pName": "Aman",
-    "pSize": "6",
-    "pPrice": 100,
+    "pSize": "2",
+    "pPrice": 1000,
     "pGst": 0,
     "pDiscount": 0,
     "pQuantity": 0,
@@ -2101,25 +2101,14 @@
     "pCategory": "Human"
   },
   {
-    "id": 1762666930492,
+    "id": 1762668684165,
     "pName": "Aman",
-    "pSize": "12",
+    "pSize": "3",
     "pPrice": 200,
-    "pGst": 10,
-    "pDiscount": 2,
-    "pQuantity": 0,
-    "pFinalPrice": 0,
-    "pCategory": "Male"
-  },
-  {
-    "id": 1762666956927,
-    "pName": "Aman c",
-    "pSize": "12",
-    "pPrice": 0,
     "pGst": 0,
     "pDiscount": 0,
     "pQuantity": 0,
     "pFinalPrice": 0,
-    "pCategory": "m"
+    "pCategory": "Human"
   }
 ]

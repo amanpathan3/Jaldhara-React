@@ -26,6 +26,7 @@ export function ProductInput({ setSelectedProduct, products }) {
         {/* Product Selection */}
         <div className="flex flex-col sm:flex-row sm:items-end gap-2 flex-row">
           {/* Product Name */}
+          {/* Product Name */}
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-600 mb-1">
               Product Name
@@ -42,13 +43,14 @@ export function ProductInput({ setSelectedProduct, products }) {
               }
             >
               <option value="">Select Product</option>
-              {products.map((product) => (
-                <option key={product.id} value={product.pName}>
-                  {product.pName}
+              {[...new Set(products.map((p) => p.pName))].map((uniqueName) => (
+                <option key={uniqueName} value={uniqueName}>
+                  {uniqueName}
                 </option>
               ))}
             </select>
           </div>
+
 
           {/* Product Size */}
           <div className="flex flex-col">

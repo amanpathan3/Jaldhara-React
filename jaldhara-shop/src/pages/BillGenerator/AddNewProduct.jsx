@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PlusCircle } from "lucide-react";
 
-export function AddNewProduct({onProductAdded}) {
+export function AddNewProduct({refreshProducts}) {
    const [product, setProduct] = useState({
     name: "",
     size: "",
@@ -48,7 +48,7 @@ export function AddNewProduct({onProductAdded}) {
         });
 
         // 🔥 Refresh the product list
-        onProductAdded();
+        refreshProducts();
       }
   };
 

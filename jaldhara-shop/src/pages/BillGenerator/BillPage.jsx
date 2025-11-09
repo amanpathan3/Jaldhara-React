@@ -25,6 +25,10 @@ export function BillPage() {
     fetchProducts();
   }, []);
 
+  function refreshProducts(){
+    fetchProducts();
+  }
+
 
   return (
     <>
@@ -40,7 +44,7 @@ export function BillPage() {
 
           <CustomerDetails setSavedCustomer={setSavedCustomer} />
 
-          <AddNewProduct products={products}/>
+          <AddNewProduct refreshProducts={refreshProducts}/>
 
           <ProductInput setSelectedProduct={setSelectedProduct} products={products}/>
 
