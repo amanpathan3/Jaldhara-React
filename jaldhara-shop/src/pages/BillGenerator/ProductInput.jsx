@@ -1,26 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export function ProductInput({ setSelectedProduct }) {
-  const [productData, setProductData] = useState([]);
+export function ProductInput({ setSelectedProduct, products }) {
   const [tempProduct, setTempProduct] = useState({
     name: "",
     size: "",
     quantity: "",
   });
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const data = await fetch("http://localhost:5000/api/products");
-      const json = await data.json();
-      setProductData(json);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
-  };
 
   const addData = () => {
     if (tempProduct.name && tempProduct.size && tempProduct.quantity) {
@@ -57,7 +42,7 @@ export function ProductInput({ setSelectedProduct }) {
               }
             >
               <option value="">Select Product</option>
-              {productData.map((product) => (
+              {products.map((product) => (
                 <option key={product.id} value={product.pName}>
                   {product.pName}
                 </option>
@@ -81,7 +66,7 @@ export function ProductInput({ setSelectedProduct }) {
               }
             >
               <option value="">Select Size</option>
-              {productData
+              {products
                 .filter((p) => p.pName === tempProduct.name)
                 .map((product) => (
                   <option key={product.id} value={product.pSize}>

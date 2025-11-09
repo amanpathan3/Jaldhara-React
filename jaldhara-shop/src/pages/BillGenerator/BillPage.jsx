@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "../../component/Header";
 import { CustomerDetails } from "./CustomerDetails";
 import { AddNewProduct } from "./AddNewProduct";
@@ -8,17 +8,24 @@ import { ProductTable } from "./ProductTable";
 export function BillPage() {
 
   const [savedCustomer, setSavedCustomer] = useState("");
-
-  const [products, setProducts] = useState([]);
-  const [product, setProduct] = useState({
-    name: "",
-    size: "",
-    price: "",
-    gst: "",
-    discount: "",
-  });
-
   const [selectedProduct, setSelectedProduct] = useState([]);
+  const [products, setProducts] = useState([]);
+
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/products");
+      const data = await res.json();
+      setProducts(data);
+    } catch (err) {
+      console.error("❌ Error fetching products:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+
   return (
     <>
       <Header />
@@ -31,13 +38,13 @@ export function BillPage() {
             <p className="text-gray-600">Create, manage and print shop bills</p>
           </div>
 
-          <CustomerDetails  setSavedCustomer={setSavedCustomer}/>
+          <CustomerDetails setSavedCustomer={setSavedCustomer} />
 
-          <AddNewProduct setProduct={setProduct} product={product} setProducts={setProducts} products={products} />
+          <AddNewProduct products={products}/>
 
-          <ProductInput products={products} setSelectedProduct={setSelectedProduct}/>
+          <ProductInput setSelectedProduct={setSelectedProduct} products={products}/>
 
-          <ProductTable setSelectedProduct={setSelectedProduct} selectedProduct={selectedProduct} savedCustomer={savedCustomer}/>
+          <ProductTable setSelectedProduct={setSelectedProduct} selectedProduct={selectedProduct} savedCustomer={savedCustomer} />
         </div>
       </div>
     </>
