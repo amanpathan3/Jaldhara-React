@@ -61,14 +61,14 @@ export function Header() {
         
         <nav className="flex flex-col space-y-4 px-6 mt-4 text-gray-700 font-medium">
           <a
-            href="#"
+            href="/"
             className="hover:text-blue-600 transition-colors"
             onClick={() => setIsOpen(false)}
           >
             Home
           </a>
           <a
-            href="#"
+            href="/bill"
             className="hover:text-blue-600 transition-colors"
             onClick={() => setIsOpen(false)}
           >
@@ -89,7 +89,7 @@ export function Header() {
             Customer Details
           </a>
           <a
-            href="#"
+            href="/products"
             className="hover:text-blue-600 transition-colors"
             onClick={() => setIsOpen(false)}
           >

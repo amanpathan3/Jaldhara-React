@@ -1,4 +1,3 @@
-import React from "react";
 
 export function Footer() {
   return (
@@ -15,11 +14,11 @@ export function Footer() {
         <div>
           <h2 className="text-xl font-semibold mb-3">Quick Links</h2>
           <ul className="space-y-2 text-gray-400">
-            <li><a href="#" className="hover:text-blue-400">Home</a></li>
-            <li><a href="#" className="hover:text-blue-400">Bill Generator</a></li>
+            <li><a href="/" className="hover:text-blue-400">Home</a></li>
+            <li><a href="/bill" className="hover:text-blue-400">Bill Generator</a></li>
             <li><a href="#" className="hover:text-blue-400">Dashboard</a></li>
             <li><a href="#" className="hover:text-blue-400">Customer Details</a></li>
-            <li><a href="#" className="hover:text-blue-400">Product Details</a></li>
+            <li><a href="/products" className="hover:text-blue-400">Product Details</a></li>
           </ul>
         </div>
 

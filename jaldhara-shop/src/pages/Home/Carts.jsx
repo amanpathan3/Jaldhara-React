@@ -15,7 +15,7 @@ export function Carts() {
                             <p className="text-gray-600 mb-4">
                                 Instantly generate customer bills with discounts and tax calculations.
                             </p>
-                            <a href="#" className="text-blue-600 hover:underline font-medium">
+                            <a href="/bill" className="text-blue-600 hover:underline font-medium">
                                 Go to Billing →
                             </a>
                         </div>
@@ -37,7 +37,7 @@ export function Carts() {
                             <p className="text-gray-600 mb-4">
                                 Manage your product inventory — add, edit, or delete plumbing materials easily.
                             </p>
-                            <a href="#" className="text-purple-600 hover:underline font-medium">
+                            <a href="/products" className="text-purple-600 hover:underline font-medium">
                                 Manage Products →
                             </a>
                         </div>

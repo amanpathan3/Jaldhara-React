@@ -1,0 +1,74 @@
+import { useEffect, useState } from "react";
+import { Header } from "../../component/Header";
+
+export function ProductsPage() {
+  const [Products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/products");
+      const json = await response.json();
+      setProducts(json);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  return (
+    <div className="p-8 bg-gray-100 min-h-screen">
+     
+      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+        Product List
+      </h1>
+
+      <div className="overflow-x-auto shadow-md rounded-lg bg-white">
+        <table className="min-w-full border border-gray-200">
+          <thead className="bg-blue-600 text-white">
+            <tr>
+              <th className="py-3 px-4 text-left">Sr.No</th>
+              <th className="py-3 px-4 text-left">Product Name</th>
+              <th className="py-3 px-4 text-left">Size</th>
+              <th className="py-3 px-4 text-left">Price</th>
+              <th className="py-3 px-4 text-left">GST</th>
+              <th className="py-3 px-4 text-left">Discount</th>
+              <th className="py-3 px-4 text-left">Final Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Products.length > 0 ? (
+              Products.map((product, index) => (
+                <tr
+                  key={index}
+                  className="border-b hover:bg-gray-100 transition duration-200"
+                >
+                  <td className="py-3 px-4">{index + 1}</td>
+                  <td className="py-3 px-4">{product.pName}</td>
+                  <td className="py-3 px-4">{product.pSize}</td>
+                  <td className="py-3 px-4">{product.pPrice}</td>
+                  <td className="py-3 px-4">{product.pGst}</td>
+                  <td className="py-3 px-4">{product.pDiscount}</td>
+                  <td className="py-3 px-4 font-semibold text-green-600">
+                    {product.pFinalPrice}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="7"
+                  className="text-center py-6 text-gray-500 italic"
+                >
+                  No products found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
