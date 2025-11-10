@@ -1898,15 +1898,5 @@
     "pDiscount": 0,
     "pFinalPrice": 20,
     "pCategory": "Others"
-  },
-  {
-    "id": 1762684272714,
-    "pName": "Aman",
-    "pSize": "12",
-    "pPrice": 100,
-    "pGst": 18,
-    "pDiscount": 10,
-    "pFinalPrice": 106.2,
-    "pCategory": "A"
   }
 ]
