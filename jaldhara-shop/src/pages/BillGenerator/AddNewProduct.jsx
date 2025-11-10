@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { PlusCircle } from "lucide-react";
 
-export function AddNewProduct({refreshProducts}) {
-   const [product, setProduct] = useState({
+export function AddNewProduct({ refreshProducts }) {
+  const [product, setProduct] = useState({
     name: "",
     size: "",
     price: "",
@@ -16,6 +16,12 @@ export function AddNewProduct({refreshProducts}) {
       alert("Please fill all required fields!");
       return;
     }
+    const totalWithGst =
+      parseFloat(product.price) +
+      (parseFloat(product.price) * (parseFloat(product.gst) / 100));
+
+    const finalPrice =
+      totalWithGst - (totalWithGst * (parseFloat(product.discount) /100));
 
     const newProduct = {
       id: Date.now(),
@@ -24,32 +30,31 @@ export function AddNewProduct({refreshProducts}) {
       pPrice: parseFloat(product.price),
       pGst: parseFloat(product.gst) || 0,
       pDiscount: parseFloat(product.discount) || 0,
-      pQuantity: 0,
-      pFinalPrice: 0,
-      pCategory: product.category || "General",
+      pFinalPrice: parseFloat(finalPrice),
+      pCategory: product.category || "Others",
     };
 
-    
-      const response = await fetch("http://localhost:5000/api/products", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newProduct),
+
+    const response = await fetch("http://localhost:5000/api/products", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newProduct),
+    });
+
+    if (response.ok) {
+      alert("✅ Product added successfully!");
+      setProduct({
+        name: "",
+        size: "",
+        price: "",
+        gst: "",
+        discount: "",
+        category: "",
       });
 
-      if (response.ok) {
-        alert("✅ Product added successfully!");
-        setProduct({
-          name: "",
-          size: "",
-          price: "",
-          gst: "",
-          discount: "",
-          category: "",
-        });
-
-        // 🔥 Refresh the product list
-        refreshProducts();
-      }
+      // 🔥 Refresh the product list
+      refreshProducts();
+    }
   };
 
   return (

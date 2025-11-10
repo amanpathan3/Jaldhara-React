@@ -1,7 +1,7 @@
 import { Edit, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export function ProductTable({ selectedProduct, setSelectedProduct , savedCustomer }) {
+export function ProductTable({ selectedProduct, setSelectedProduct, savedCustomer }) {
   const handleDelete = (index) => {
     setSelectedProduct(selectedProduct.filter((_, i) => i !== index));
   };
@@ -9,22 +9,22 @@ export function ProductTable({ selectedProduct, setSelectedProduct , savedCustom
   const handleGeneratePDF = () => {
     alert("PDF Generated (coming soon)");
   };
-  
-  const [product,setProduct] = useState([]);
 
-   useEffect(() => {
-      fetchData();
-    }, []);
-  
-    const fetchData = async () => {
-      try {
-        const data = await fetch("http://localhost:5000/api/products");
-        const json = await data.json();
-        setProduct(json);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
+  const [product, setProduct] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const data = await fetch("http://localhost:5000/api/products");
+      const json = await data.json();
+      setProduct(json);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
   return (
     <>
@@ -61,27 +61,34 @@ export function ProductTable({ selectedProduct, setSelectedProduct , savedCustom
             </tr>
           </thead>
           <tbody>
-            {selectedProduct.map((item, index) => (
-              <tr key={index} className="border-b text-center">
-                <td className="p-2 border">{index + 1}</td>
-                <td className="p-2 border">{item.name}</td>
-                <td className="p-2 border">{item.size}</td>
-                <td className="p-2 border">{0}</td>
-                <td className="p-2 border">{item.quantity}</td>
-                <td className="p-2 border">₹{0}</td>
-                <td className="p-2 border flex justify-center gap-2">
-                  <button className="text-green-600 hover:text-green-800">
-                    <Edit size={18} />
-                  </button>
-                  <button
-                    className="text-red-600 hover:text-red-800"
-                    onClick={() => handleDelete(index)}
-                  >
-                    <Trash2 size={18} />
-                  </button>
-                </td>
-              </tr>
-            ))}
+
+            {selectedProduct.map((item, index) => {
+              // Find the matching product object from your product array
+              const matched = product.find(
+                (p) => p.pName === item.name && p.pSize === item.size
+              );
+              // Skip rendering if no match found
+              if (!matched) return null;
+
+              return (
+                <tr key={index} className="border-b text-center">
+                  <td className="p-2 border">{index + 1}</td>
+                  <td className="p-2 border">{matched.pName}</td>
+                  <td className="p-2 border">{matched.pSize}</td>
+                  <td className="p-2 border">₹{matched.pPrice}</td>
+                  <td className="p-2 border">{item.quantity}</td>
+                  <td className="p-2 border">₹{matched.pFinalPrice * item.quantity}</td>
+                  <td className="p-2 flex justify-center gap-2">
+                    <button
+                      className="text-red-600 hover:text-red-800"
+                      onClick={() => handleDelete(index)}
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
 
