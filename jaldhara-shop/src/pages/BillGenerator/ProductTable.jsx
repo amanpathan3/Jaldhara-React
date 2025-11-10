@@ -1,16 +1,95 @@
 import { Edit, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 export function ProductTable({ selectedProduct, setSelectedProduct, savedCustomer }) {
+  const [product, setProduct] = useState([]);
   const handleDelete = (index) => {
     setSelectedProduct(selectedProduct.filter((_, i) => i !== index));
   };
 
+  const totalPrice = selectedProduct.reduce((total, item) => {
+    const matched = product.find(
+      (p) => p.pName === item.name && p.pSize === item.size
+    );
+    if (!matched) return total;
+    return total + matched.pFinalPrice * item.quantity;
+  }, 0);
+
+
   const handleGeneratePDF = () => {
-    alert("PDF Generated (coming soon)");
+    const doc = new jsPDF();
+
+    // Header Title
+    doc.setFontSize(16);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(55, 65, 81); // gray-700
+    doc.text("JALDHARA MACHINERY AND PLUMBING MATERIAL", 105, 15, { align: "center" });
+
+    // Shop & Customer Info
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(0, 0, 0);
+    doc.text("Owner Name: Zahir Sayyad", 14, 30);
+    doc.text("Mo.No: 9637847576", 14, 37);
+    doc.text("Address: Dhamanagaon", 14, 44);
+    doc.text(`Customer Name: ${savedCustomer}`, 150, 30);
+
+    // Prepare Table Data
+    const tableData = selectedProduct
+      .map((item, index) => {
+        const matched = product.find(
+          (p) => p.pName === item.name && p.pSize === item.size
+        );
+        if (!matched) return null;
+
+        const finalPrice = (matched.pFinalPrice * item.quantity).toFixed(2);
+
+        return [
+          index + 1,
+          matched.pName,
+          matched.pSize,
+          matched.pPrice.toFixed(2), // clean numeric format
+          item.quantity,
+          finalPrice,
+        ];
+      })
+      .filter(Boolean);
+
+    // Calculate Total
+    const totalAmount = tableData.reduce((sum, row) => {
+      const price = parseFloat(row[5]);
+      return sum + (isNaN(price) ? 0 : price);
+    }, 0);
+
+    // Add total row to table
+    tableData.push(["", "", "", "", "", `Total:${totalAmount}`]);
+
+    // Generate Table
+    doc.autoTable({
+      startY: 55,
+      head: [["Sr No", "Name", "Size", "Rate", "Qty", "Final Price"]],
+      body: tableData,
+      theme: "grid",
+      headStyles: { fillColor: [46, 125, 50] },
+      styles: { halign: "center" },
+      columnStyles: {
+        0: { cellWidth: 15 },
+        1: { cellWidth: 40 },
+        2: { cellWidth: 25 },
+        3: { cellWidth: 25 },
+        4: { cellWidth: 20 },
+        5: { cellWidth: 35 },
+      },
+    });
+
+    // Save PDF
+    doc.save(`${savedCustomer || "Customer"}_bill.pdf`);
   };
 
-  const [product, setProduct] = useState([]);
+
+
 
   useEffect(() => {
     fetchData();
@@ -89,6 +168,11 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
                 </tr>
               );
             })}
+            <tr className="bg-gray-100 font-semibold text-center">
+              <td colSpan="6" className="p-2 border text-right">Total: ₹{totalPrice}</td>
+              <td className="p-2 border"></td>
+            </tr>
+
           </tbody>
         </table>
 
