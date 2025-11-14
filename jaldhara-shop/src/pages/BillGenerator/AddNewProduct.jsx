@@ -150,7 +150,7 @@ export function AddNewProduct({ refreshProducts }) {
         <div className="text-right">
           <button
             onClick={handleAddProduct}
-            className="flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 w-full sm:w-auto"
+            className="flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 w-full sm:w-auto cursor-pointer"
           >
             <PlusCircle size={18} /> Add Product
           </button>

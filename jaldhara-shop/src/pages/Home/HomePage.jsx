@@ -1,13 +1,13 @@
 import { Header } from "../../component/Header";
 import PlumbingImg from "../../assets/plumbing.jpg";
 import { Footer } from "../../component/Footer";
-import { Carts } from "../Home/Carts";
+import { Carts } from "./Carts";
 
 export function HomePage() {
     return (
         <>
             <Header />
-            <div className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh]">
+            <div className="relative w-full h-[40vh] sm:h-[40vh] md:h-[60vh] mt-16">
                 <img
                     src={PlumbingImg}
                     alt="plumbing-img"

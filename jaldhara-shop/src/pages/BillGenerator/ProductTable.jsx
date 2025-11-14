@@ -1,16 +1,14 @@
 import { Edit, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
-export function ProductTable({ selectedProduct, setSelectedProduct, savedCustomer }) {
-  const [product, setProduct] = useState([]);
+export function ProductTable({ selectedProduct, setSelectedProduct, savedCustomer, products}) {
   const handleDelete = (index) => {
     setSelectedProduct(selectedProduct.filter((_, i) => i !== index));
   };
 
   const totalPrice = selectedProduct.reduce((total, item) => {
-    const matched = product.find(
+    const matched = products.find(
       (p) => p.pName === item.name && p.pSize === item.size
     );
     if (!matched) return total;
@@ -39,7 +37,7 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
     // Prepare Table Data
     const tableData = selectedProduct
       .map((item, index) => {
-        const matched = product.find(
+        const matched = products.find(
           (p) => p.pName === item.name && p.pSize === item.size
         );
         if (!matched) return null;
@@ -72,7 +70,7 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
       head: [["Sr No", "Name", "Size", "Rate", "Qty", "Final Price"]],
       body: tableData,
       theme: "grid",
-      headStyles: { fillColor: [46, 125, 50] },
+      headStyles: { fillColor: [29, 78, 216] },
       styles: { halign: "center" },
       columnStyles: {
         0: { cellWidth: 15 },
@@ -86,23 +84,6 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
 
     // Save PDF
     doc.save(`${savedCustomer || "Customer"}_bill.pdf`);
-  };
-
-
-
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const data = await fetch("http://localhost:5000/api/products");
-      const json = await data.json();
-      setProduct(json);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
   };
 
   return (
@@ -129,7 +110,7 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
 
         <table className="w-full border-collapse text-sm sm:text-base">
           <thead>
-            <tr className="bg-green-600 text-white border-b">
+            <tr className="bg-blue-600 text-white border-b">
               <th className="p-2 border">Sr No</th>
               <th className="p-2 border">Name</th>
               <th className="p-2 border">Size</th>
@@ -143,7 +124,7 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
 
             {selectedProduct.map((item, index) => {
               // Find the matching product object from your product array
-              const matched = product.find(
+              const matched = products.find(
                 (p) => p.pName === item.name && p.pSize === item.size
               );
               // Skip rendering if no match found
@@ -179,7 +160,7 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
         <div className="text-right mt-4">
           <button
             onClick={handleGeneratePDF}
-            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 w-full sm:w-auto"
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 w-full sm:w-auto"
           >
             Generate PDF
           </button>

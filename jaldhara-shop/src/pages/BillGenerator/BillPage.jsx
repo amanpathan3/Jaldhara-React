@@ -38,7 +38,7 @@ export function BillPage() {
 
           {/* Title */}
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-green-700">Shop Bill Manager</h1>
+            <h1 className="text-3xl font-bold text-blue-700">Shop Bill Manager</h1>
             <p className="text-gray-600">Create, manage and print shop bills</p>
           </div>
 
@@ -48,7 +48,7 @@ export function BillPage() {
 
           <ProductInput setSelectedProduct={setSelectedProduct} products={products}/>
 
-          <ProductTable setSelectedProduct={setSelectedProduct} selectedProduct={selectedProduct} savedCustomer={savedCustomer} />
+          <ProductTable setSelectedProduct={setSelectedProduct} selectedProduct={selectedProduct} savedCustomer={savedCustomer} products={products}/>
         </div>
       </div>
     </>

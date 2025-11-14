@@ -48,7 +48,7 @@ export function Carts() {
                             <p className="text-gray-600 mb-4">
                                 Keep track of customer information, past orders, and outstanding payments.
                             </p>
-                            <a href="#" className="text-red-600 hover:underline font-medium">
+                            <a href="/customer-details" className="text-red-600 hover:underline font-medium">
                                 View Customers →
                             </a>
                         </div>

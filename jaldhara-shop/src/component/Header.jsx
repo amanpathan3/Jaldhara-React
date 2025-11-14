@@ -82,7 +82,7 @@ export function Header() {
             Dashboard
           </a>
           <a
-            href="#"
+            href="/customer-details"
             className="hover:text-blue-600 transition-colors"
             onClick={() => setIsOpen(false)}
           >

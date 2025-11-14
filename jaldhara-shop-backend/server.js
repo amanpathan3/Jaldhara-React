@@ -1,22 +1,23 @@
 const express = require('express');
-const cors = require('cors'); // ✅ Import CORS
+const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Use Middleware
-app.use(cors()); // Enable Cross-Origin requests
+app.use(cors());
 app.use(express.json());
 
-// ✅ Import product routes
+// Product Routes
 const productRoutes = require('./routes/products');
 app.use('/api/products', productRoutes);
 
-// Test route
+// Customer Routes
+const customerRoutes = require('./routes/customerDetails');
+app.use('/api/customers', customerRoutes);
+
 app.get('/', (req, res) => {
     res.send('Backend is running!');
 });
 
-// Start server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

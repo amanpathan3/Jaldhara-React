@@ -23,7 +23,7 @@ export function CustomerDetails({setSavedCustomer}) {
                     />
                     <button
                         onClick={handleSaveCustomer}
-                        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 w-full sm:w-auto"
+                        className="bg-blue-600 cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-blue-700 w-full sm:w-auto"
                     >
                         Save
                     </button>

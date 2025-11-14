@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Aman",
+    "lastPurchaseDate": "2025-11-10",
+    "products": [
+      { "name": "Pipe", "size": "2 inch", "qty": 5, "price": 250 },
+      { "name": "Tap", "size": "Medium", "qty": 2, "price": 150 }
+    ]
+  }
+]
