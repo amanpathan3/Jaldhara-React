@@ -12,13 +12,15 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.16",
     "axios": "^1.13.1",
+    "firebase": "^12.6.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.5.28",
     "lucide-react": "^0.548.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.9.5",
+    "react-firebase-hooks": "^5.1.1",
+    "react-router-dom": "^7.9.6",
     "tailwindcss": "^4.1.16"
   },
   "devDependencies": {

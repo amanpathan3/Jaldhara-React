@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import JaldharaLogo from "../assets/Jaldhara.png";
 import UserImg from "../assets/user.png";
+import { signOut } from "firebase/auth";
+import { auth } from "../pages/auth/firebase";  // IMPORTANT: adjust path!!
+import { useNavigate } from "react-router-dom";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+const navigate = useNavigate();
 
   return (
     <>
@@ -95,6 +99,16 @@ export function Header() {
           >
             Product Details
           </a>
+           <button
+    onClick={async () => {
+      await signOut(auth);    // logout user
+      setIsOpen(false);
+      navigate("/login");     // go to login page
+    }}
+    className="text-left text-red-600 hover:text-red-800 mt-6"
+  >
+    Logout
+  </button>
         </nav>
       </div>
     </>
