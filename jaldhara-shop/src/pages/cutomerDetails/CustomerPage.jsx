@@ -14,15 +14,30 @@ export function CustomerManagement() {
         setCustomerDetails(json);
     }
 
+    const refreshCustomers = () => {
+        fetchData()
+    }
     return (
         <>
             <Header />
-            <div className="p-6 mt-16">
-                {customerDetails.map((cust, index) => (
-                    <CustomerAccordion key={index} customer={cust} />
-                ))}
+            {customerDetails && (
+                <div className="p-6 mt-16">
+                    {customerDetails.length === 0 ? (
+                        <p className="text-center text-gray-600 text-lg font-semibold">
+                            No customers found. Add a new customer to get started.
+                        </p>
+                    ) : (
+                        customerDetails.map((cust, index) => (
+                            <CustomerAccordion
+                                key={index}
+                                customer={cust}
+                                refreshCustomers={refreshCustomers}
+                            />
+                        ))
+                    )}
+                </div>
+            )}
 
-            </div>
         </>
     );
 }

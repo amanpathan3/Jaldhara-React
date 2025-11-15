@@ -26,26 +26,5 @@
       }
     ],
     "id": 1763185530987
-  },
-  {
-    "name": "Muskan",
-    "lastPurchaseDate": "15 Nov 2025",
-    "products": [
-      {
-        "name": "Solution",
-        "size": "None",
-        "price": 170,
-        "qty": 10,
-        "finalPrice": "1700.00"
-      },
-      {
-        "name": "Pipe UPVC",
-        "size": "1/2\"",
-        "price": 256.5,
-        "qty": 10,
-        "finalPrice": "3026.70"
-      }
-    ],
-    "id": 1763185728370
   }
 ]

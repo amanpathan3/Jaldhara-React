@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { handleGeneratePDF } from "../../utils/CustomerPdf";
 
-export function CustomerAccordion({ customer }) {
+export function CustomerAccordion({ customer, refreshCustomers}) {
   const [open, setOpen] = useState(false);
 
   const toggleAccordion = () => setOpen(!open);
@@ -11,6 +11,21 @@ export function CustomerAccordion({ customer }) {
     (sum, item) => sum + Number(item.finalPrice || 0),
     0
   );
+
+  const removeCustomer = async (customerId) => {
+  const confirmDelete = window.confirm("You want to delete this customer?");
+  if (!confirmDelete) return; // user clicked cancel
+
+  try {
+    const res = await fetch(`http://localhost:5000/api/customers/${customerId}`, {
+      method: "DELETE",
+    });
+    refreshCustomers();
+  } catch (error) {
+    console.error("Error deleting customer:", error);
+  }
+};
+
 
   return (
     <>
@@ -39,7 +54,7 @@ export function CustomerAccordion({ customer }) {
             {/* SHOP NAME CENTERED */}
             <div className="text-center">
               <p className="font-bold text-2xl text-blue-700">
-                Jaldhara Machinery And Plumbing Material
+                JALDHARA MACHINERY AND PLUMBING MATERIAL
               </p>
             </div>
 
@@ -94,12 +109,21 @@ export function CustomerAccordion({ customer }) {
             </div>
 
             {/* PDF BUTTON */}
-            <button
-              onClick={() => handleGeneratePDF(customer,totalFinalPrice)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
-            >
-              Generate PDF
-            </button>
+            <div className="flex gap-5">
+              <button
+                onClick={() => handleGeneratePDF(customer,totalFinalPrice)}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
+              >
+                Generate PDF
+              </button>
+
+              <button
+                onClick={() => removeCustomer(customer.id)}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"
+              >
+                Remove Customer
+              </button>
+            </div>
 
           </div>
         )}
