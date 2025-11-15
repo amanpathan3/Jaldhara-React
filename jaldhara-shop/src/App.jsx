@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import {ProductsPage} from './pages/productsTable/productsPage';
 import {BrowserRouter} from 'react-router-dom';
 import { BillPage } from './pages/BillGenerator/BillPage';
-import { CustomerManagement } from './pages/cutomerDetails/CustomerManagement';
+import { CustomerManagement } from './pages/cutomerDetails/CustomerPage';
 function App() {
 
   return (

@@ -3,8 +3,39 @@
     "name": "Aman",
     "lastPurchaseDate": "2025-11-10",
     "products": [
-      { "name": "Pipe", "size": "2 inch", "qty": 5, "price": 250 },
-      { "name": "Tap", "size": "Medium", "qty": 2, "price": 150 }
+      {
+        "name": "Pipe",
+        "size": "2 inch",
+        "price": 250,
+        "qty": 5,
+        "finalPrice": 300
+      },
+      {
+        "name": "Tap",
+        "size": "Medium",
+        "price": 150,
+        "qty": 2,
+        "finalPrice": 300
+      }
+    ]
+  },{
+    "name": "Aman",
+    "lastPurchaseDate": "2025-11-10",
+    "products": [
+      {
+        "name": "Pipe",
+        "size": "2 inch",
+        "price": 250,
+        "qty": 5,
+        "finalPrice": 300
+      },
+      {
+        "name": "Tap",
+        "size": "Medium",
+        "price": 150,
+        "qty": 2,
+        "finalPrice": 100
+      }
     ]
   }
 ]
