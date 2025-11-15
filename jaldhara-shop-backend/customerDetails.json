@@ -1,41 +1,51 @@
 [
   {
     "name": "Aman",
-    "lastPurchaseDate": "2025-11-10",
+    "lastPurchaseDate": "15 Nov 2025",
     "products": [
       {
-        "name": "Pipe",
-        "size": "2 inch",
-        "price": 250,
-        "qty": 5,
-        "finalPrice": 300
+        "name": "Pipe UPVC",
+        "size": "1/2\"",
+        "price": 256.5,
+        "qty": 10,
+        "finalPrice": "3026.70"
       },
       {
-        "name": "Tap",
-        "size": "Medium",
-        "price": 150,
-        "qty": 2,
-        "finalPrice": 300
+        "name": "Shoe Bend UPVC",
+        "size": "1\"",
+        "price": 27.5,
+        "qty": 25,
+        "finalPrice": "811.25"
+      },
+      {
+        "name": "Brass FTA UPVC",
+        "size": "1 1/2\"",
+        "price": 436,
+        "qty": 100,
+        "finalPrice": "51448.00"
       }
-    ]
-  },{
-    "name": "Aman",
-    "lastPurchaseDate": "2025-11-10",
+    ],
+    "id": 1763185530987
+  },
+  {
+    "name": "Muskan",
+    "lastPurchaseDate": "15 Nov 2025",
     "products": [
       {
-        "name": "Pipe",
-        "size": "2 inch",
-        "price": 250,
-        "qty": 5,
-        "finalPrice": 300
+        "name": "Solution",
+        "size": "None",
+        "price": 170,
+        "qty": 10,
+        "finalPrice": "1700.00"
       },
       {
-        "name": "Tap",
-        "size": "Medium",
-        "price": 150,
-        "qty": 2,
-        "finalPrice": 100
+        "name": "Pipe UPVC",
+        "size": "1/2\"",
+        "price": 256.5,
+        "qty": 10,
+        "finalPrice": "3026.70"
       }
-    ]
+    ],
+    "id": 1763185728370
   }
 ]
