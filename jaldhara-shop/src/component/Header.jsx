@@ -86,18 +86,18 @@ const navigate = useNavigate();
             Dashboard
           </a>
           <a
-            href="/customer-details"
-            className="hover:text-blue-600 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            Customer Details
-          </a>
-          <a
             href="/products"
             className="hover:text-blue-600 transition-colors"
             onClick={() => setIsOpen(false)}
           >
             Product Details
+          </a>
+          <a
+            href="/customer-details"
+            className="hover:text-blue-600 transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            Customer Details
           </a>
            <button
     onClick={async () => {
