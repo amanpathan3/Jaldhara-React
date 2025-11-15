@@ -4,9 +4,9 @@
     "pName": "Pipe UPVC",
     "pSize": "1/2\"",
     "pPrice": 256.5,
-    "pGst": 18,
-    "pDiscount": 0,
-    "pFinalPrice": 302.67,
+    "pGst": "18",
+    "pDiscount": "10",
+    "pFinalPrice": 264.5,
     "pCategory": "UPVC"
   },
   {

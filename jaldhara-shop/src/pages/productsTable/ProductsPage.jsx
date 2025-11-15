@@ -2,8 +2,16 @@ import { useEffect, useState } from "react";
 import { Edit, Trash2 } from "lucide-react";
 import { Header } from "../../component/Header";
 import { AddNewProduct } from "../BillGenerator/AddNewProduct";
+import { EditProductForm } from "./EditProductForm";
 export function ProductsPage() {
+  const [editProduct, setEditProduct] = useState(null);
+
   const [Products, setProducts] = useState([]);
+
+  const handleEditProduct = (product) => {
+    setEditProduct(product);
+  };
+
 
   useEffect(() => {
     fetchData();
@@ -22,7 +30,7 @@ export function ProductsPage() {
   const refreshProducts = () => {
     fetchData();
   }
-  
+
   const handleDeleteProduct = async (productId) => {
     try {
       const res = await fetch(`http://localhost:5000/api/products/${productId}`, {
@@ -39,6 +47,14 @@ export function ProductsPage() {
       <Header />
       <main className="pt-20 p-6">
         <AddNewProduct />
+        {editProduct && (
+          <EditProductForm
+            product={editProduct}
+            setEditProduct={setEditProduct}
+            refreshProducts={refreshProducts}
+          />
+        )}
+
         <div className="p-8 bg-white min-h-screen">
 
           <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
@@ -77,7 +93,14 @@ export function ProductsPage() {
                       </td>
                       <td className="p-2 flex justify-center gap-2">
                         <button
-                          className="text-red-600 hover:text-red-800"
+                          className="text-blue-600 cursor-pointer hover:text-blue-800"
+                          onClick={() => handleEditProduct(product)}
+                        >
+                          <Edit size={18} />
+                        </button>
+
+                        <button
+                          className="text-red-600 cursor-pointer hover:text-red-800"
                           onClick={() => handleDeleteProduct(product.id)}
                         >
                           <Trash2 size={18} />

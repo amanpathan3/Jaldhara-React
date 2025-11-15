@@ -18,9 +18,9 @@ export function HomePage() {
 
                 {/* Text Overlay */}
                 <div className="absolute inset-0 flex flex-col justify-center items-start text-white px-10 md:px-20">
-                    <h1 className="text-2xl md:text-5xl font-bold mb-4 w-6/12">
-                        Jaldhara Supplier And Plumbing Material
-                    </h1>
+                    <h3 className="text-xl md:text-4xl font-bold mb-4 w-6/12">
+                        JALDHARA MACHINERY AND PLUMBING MATERIAL
+                    </h3>
                     <p className="text-lg md:text-2xl mb-6">
                         The trusted partner for quality plumbing solutions
                     </p>

@@ -87,14 +87,22 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
           </tbody>
         </table>
 
-        <div className="text-right mt-4">
+        <div className="text-right mt-4 flex gap-5">
           <button
             onClick={() => {
-              handleGeneratePDF(savedCustomer, selectedProduct, products);
               sendCustomerData(savedCustomer, selectedProduct, products);
             }}
 
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 w-full sm:w-auto"
+            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 cursor-pointer w-full sm:w-auto"
+          >
+            Save Customer Details
+          </button>
+          <button
+            onClick={() => {
+              handleGeneratePDF(savedCustomer, selectedProduct, products);
+            }}
+
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 w-full sm:w-auto"
           >
             Generate PDF
           </button>

@@ -21,7 +21,7 @@ export function AddNewProduct({ refreshProducts }) {
       (parseFloat(product.price) * (parseFloat(product.gst) / 100));
 
     const finalPrice =
-      totalWithGst - (totalWithGst * (parseFloat(product.discount) /100));
+      totalWithGst - (totalWithGst * (parseFloat(product.discount) / 100));
 
     const newProduct = {
       id: Date.now(),
@@ -136,15 +136,22 @@ export function AddNewProduct({ refreshProducts }) {
             <label className="block text-sm font-medium text-gray-600 mb-1">
               Category:
             </label>
-            <input
-              placeholder="Category"
+
+            <select
               value={product.category}
               onChange={(e) =>
                 setProduct({ ...product, category: e.target.value })
               }
               className="border rounded-lg p-2 w-full"
-            />
+            >
+              <option value="">Select Category</option>
+              <option value="UPVC">UPVC</option>
+              <option value="CPVC">CPVC</option>
+              <option value="SWR">SWR</option>
+              <option value="Others">Others</option>
+            </select>
           </div>
+
         </div>
 
         <div className="text-right">

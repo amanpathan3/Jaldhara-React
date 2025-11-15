@@ -91,12 +91,12 @@ export function CustomerAccordion({ customer, refreshCustomers}) {
                 <tbody>
                   {customer.products.map((item, index) => (
                     <tr key={index} className="hover:bg-gray-50">
-                      <td className="border border-gray-300 p-2">{index + 1}</td>
-                      <td className="border border-gray-300 p-2">{item.name}</td>
-                      <td className="border border-gray-300 p-2">{item.size}</td>
-                      <td className="border border-gray-300 p-2">{item.price}</td>
-                      <td className="border border-gray-300 p-2">{item.qty}</td>
-                      <td className="border border-gray-300 p-2">₹{item.finalPrice}</td>
+                      <td className="border text-center border-gray-300 p-2">{index + 1}</td>
+                      <td className="border text-center border-gray-300 p-2">{item.name}</td>
+                      <td className="border text-center border-gray-300 p-2">{item.size}</td>
+                      <td className="border text-center border-gray-300 p-2">{item.price}</td>
+                      <td className="border text-center border-gray-300 p-2">{item.qty}</td>
+                      <td className="border text-center border-gray-300 p-2">₹{item.finalPrice}</td>
                     </tr>
                   ))}
                   <tr className="bg-gray-100 font-bold">
@@ -112,14 +112,14 @@ export function CustomerAccordion({ customer, refreshCustomers}) {
             <div className="flex gap-5">
               <button
                 onClick={() => handleGeneratePDF(customer,totalFinalPrice)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
+                className="px-4 py-2 cursor-pointer bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
               >
                 Generate PDF
               </button>
 
               <button
                 onClick={() => removeCustomer(customer.id)}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"
+                className="px-4 py-2 cursor-pointer bg-red-600 text-white rounded-lg shadow hover:bg-red-700"
               >
                 Remove Customer
               </button>
