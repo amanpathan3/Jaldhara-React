@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Edit, Trash2 } from "lucide-react";
 import { Header } from "../../component/Header";
 import { AddNewProduct } from "../BillGenerator/AddNewProduct";
 export function ProductsPage() {
@@ -15,6 +16,21 @@ export function ProductsPage() {
       setProducts(json);
     } catch (error) {
       console.error("Error fetching products:", error);
+    }
+  };
+
+  const refreshProducts = () => {
+    fetchData();
+  }
+  
+  const handleDeleteProduct = async (productId) => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/products/${productId}`, {
+        method: "DELETE",
+      });
+      refreshProducts();
+    } catch (error) {
+      console.error("Error deleting product:", error);
     }
   };
 
@@ -40,6 +56,7 @@ export function ProductsPage() {
                   <th className="py-3 px-4 text-left">GST</th>
                   <th className="py-3 px-4 text-left">Discount</th>
                   <th className="py-3 px-4 text-left">Final Price</th>
+                  <th className="py-3 px-4 text-left">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -57,6 +74,14 @@ export function ProductsPage() {
                       <td className="py-3 px-4">{product.pDiscount}</td>
                       <td className="py-3 px-4 font-semibold text-green-600">
                         {product.pFinalPrice}
+                      </td>
+                      <td className="p-2 flex justify-center gap-2">
+                        <button
+                          className="text-red-600 hover:text-red-800"
+                          onClick={() => handleDeleteProduct(product.id)}
+                        >
+                          <Trash2 size={18} />
+                        </button>
                       </td>
                     </tr>
                   ))
