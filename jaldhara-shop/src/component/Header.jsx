@@ -79,7 +79,7 @@ const navigate = useNavigate();
             Bill Generator
           </a>
           <a
-            href="#"
+            href="/dashboard"
             className="hover:text-blue-600 transition-colors"
             onClick={() => setIsOpen(false)}
           >

@@ -16,7 +16,7 @@ export function Footer() {
           <ul className="space-y-2 text-gray-400">
             <li><a href="/" className="hover:text-blue-400">Home</a></li>
             <li><a href="/bill" className="hover:text-blue-400">Bill Generator</a></li>
-            <li><a href="#" className="hover:text-blue-400">Dashboard</a></li>
+            <li><a href="/dashboard" className="hover:text-blue-400">Dashboard</a></li>
             <li><a href="/products" className="hover:text-blue-400">Product Details</a></li>
             <li><a href="/customer-details" className="hover:text-blue-400">Customer Details</a></li>
           </ul>

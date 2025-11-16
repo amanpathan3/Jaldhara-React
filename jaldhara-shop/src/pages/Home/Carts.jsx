@@ -26,7 +26,7 @@ export function Carts() {
                             <p className="text-gray-600 mb-4">
                                 Get insights into your total sales, daily revenue, and top-selling products.
                             </p>
-                            <a href="#" className="text-green-600 hover:underline font-medium">
+                            <a href="/dashboard" className="text-green-600 hover:underline font-medium">
                                 View Dashboard →
                             </a>
                         </div>

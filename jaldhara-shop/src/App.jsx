@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Login } from "./pages/auth/Login";
 import { PrivateRoute } from "./pages/auth/PrivateRoute";
-
+import {Dashboard} from "../src/pages/dashboard/Dashboard";
 import { HomePage } from "./pages/Home/HomePage";
 import { ProductsPage } from "./pages/productsTable/productsPage";
 import { BillPage } from "./pages/BillGenerator/BillPage";
@@ -21,6 +21,7 @@ function App() {
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/bill" element={<BillPage />} />
           <Route path="/customer-details" element={<CustomerManagement />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
 
         {/* Redirect unknown pages */}
