@@ -1,13 +1,20 @@
-// src/pages/auth/PrivateRoute.jsx
-import { Navigate } from "react-router-dom";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "./firebase";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
-export function PrivateRoute({ children }) {
-  const [user, loading] = useAuthState(auth);
+export function PrivateRoute() {
+  const { user, loading } = useAuth();
 
-  if (loading) return <p>Loading...</p>; // optional
-  if (!user) return <Navigate to="/login" />; // redirect if not logged in
+  if (loading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <p className="text-gray-600 text-lg">Loading...</p>
+      </div>
+    );
+  }
 
-  return children;
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <Outlet />;
 }

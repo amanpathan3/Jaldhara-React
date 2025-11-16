@@ -1,8 +1,12 @@
 // src/firebase.js
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { 
+  getAuth, 
+  setPersistence, 
+  browserLocalPersistence 
+} from "firebase/auth";
 
-// 🔹 Replace with your Firebase config
+// 🔹 Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAMO2ZVdacXX-c-bGGzup-vh1m6L8VBH88",
   authDomain: "jaldhara-a6d13.firebaseapp.com",
@@ -15,4 +19,15 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+const auth = getAuth(app);
+
+// 🔥 IMPORTANT: Make login persistent across refresh/close
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log("Firebase persistence enabled");
+  })
+  .catch((error) => {
+    console.error("Error setting persistence:", error);
+  });
+
+export { auth };
