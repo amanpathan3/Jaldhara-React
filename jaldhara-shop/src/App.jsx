@@ -3,7 +3,7 @@ import { Login } from "./pages/auth/Login";
 import { PrivateRoute } from "./pages/auth/PrivateRoute";
 import {Dashboard} from "../src/pages/dashboard/Dashboard";
 import { HomePage } from "./pages/Home/HomePage";
-import { ProductsPage } from "./pages/productsTable/productsPage";
+import { ProductsPage } from "./pages/productsTable/ProductsPage";
 import { BillPage } from "./pages/BillGenerator/BillPage";
 import { CustomerManagement } from "./pages/cutomerDetails/CustomerPage";
 

@@ -101,7 +101,7 @@ export function CustomerAccordion({ customer, refreshCustomers}) {
                   ))}
                   <tr className="bg-gray-100 font-bold">
                     <td className="border bg-white p-2 text-right" colSpan="6">
-                      Total: ₹{totalFinalPrice}
+                      Total: ₹{(totalFinalPrice).toFixed(2)}
                     </td>
                   </tr>
                 </tbody>
