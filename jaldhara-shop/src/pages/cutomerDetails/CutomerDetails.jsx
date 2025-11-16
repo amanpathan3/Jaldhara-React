@@ -17,7 +17,7 @@ export function CustomerAccordion({ customer, refreshCustomers}) {
   if (!confirmDelete) return; // user clicked cancel
 
   try {
-    const res = await fetch(`http://localhost:5000/api/customers/${customerId}`, {
+    const res = await fetch(`https://jaldhara-react-1.onrender.com/api/customers/${customerId}`, {
       method: "DELETE",
     });
     refreshCustomers();

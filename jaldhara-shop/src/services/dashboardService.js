@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000/api/dashboard"; // your backend route
+const BASE_URL = "https://jaldhara-react-1.onrender.com/api/dashboard"; // your backend route
 
 // GET dashboard data
 export const getDashboardData = async () => {

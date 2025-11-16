@@ -19,7 +19,7 @@ export function ProductsPage() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/products");
+      const response = await fetch("https://jaldhara-react-1.onrender.com/api/products");
       const json = await response.json();
       setProducts(json);
     } catch (error) {
@@ -33,7 +33,7 @@ export function ProductsPage() {
 
   const handleDeleteProduct = async (productId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/products/${productId}`, {
+      const res = await fetch(`https://jaldhara-react-1.onrender.com/api/products/${productId}`, {
         method: "DELETE",
       });
       refreshProducts();

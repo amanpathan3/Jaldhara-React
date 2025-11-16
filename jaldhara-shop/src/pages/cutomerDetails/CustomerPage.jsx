@@ -9,7 +9,7 @@ export function CustomerManagement() {
     }, [])
 
     const fetchData = async () => {
-        const data = await fetch("http://localhost:5000/api/customers");
+        const data = await fetch("https://jaldhara-react-1.onrender.com/api/customers");
         const json = await data.json();
         setCustomerDetails(json);
     }

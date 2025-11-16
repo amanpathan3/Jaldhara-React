@@ -5,7 +5,7 @@ export const updateMonthlySales = async (totalPrice) => {
     const today = new Date();
     const currentMonth = monthNames[today.getMonth()]; // getMonth() returns 0-11
 
-    const response = await fetch("http://localhost:5000/api/dashboard");
+    const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
     const data = await response.json();
 
 
@@ -19,7 +19,7 @@ export const updateMonthlySales = async (totalPrice) => {
       return item;
     });
 
-    const updateResponse = await fetch("http://localhost:5000/api/dashboard", {
+    const updateResponse = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export const updateDailySales = async (totalPrice) => {
     const todayStr = `${yyyy}-${mm}-${dd}`;
 
     // GET FULL DASHBOARD DATA
-    const response = await fetch("http://localhost:5000/api/dashboard");
+    const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
     const data = await response.json();
     const dashboard = data[0]; // full object
 
@@ -65,7 +65,7 @@ export const updateDailySales = async (totalPrice) => {
       dailySales: dailySalesUpdated,
     };
 
-    await fetch("http://localhost:5000/api/dashboard", {
+    await fetch("https://jaldhara-react-1.onrender.com/api/dashboard", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(finalUpdatedDashboard),
@@ -78,7 +78,7 @@ export const updateDailySales = async (totalPrice) => {
 
 export const updateCategorySales = async (selectedProducts) => {
   try {
-    const response = await fetch("http://localhost:5000/api/dashboard");
+    const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
     const data = await response.json();
     const dashboard = data[0];
 
@@ -93,7 +93,7 @@ export const updateCategorySales = async (selectedProducts) => {
       }
     });
 
-    await fetch("http://localhost:5000/api/dashboard", {
+    await fetch("https://jaldhara-react-1.onrender.com/api/dashboard", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

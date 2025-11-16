@@ -38,7 +38,7 @@ export const sendCustomerData = async (savedCustomer, selectedProduct, products)
     updateCategorySales(formattedProducts);
 
     // Send to backend
-    const response = await fetch("http://localhost:5000/api/customers", {
+    const response = await fetch("https://jaldhara-react-1.onrender.com/api/customers", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(customerData),

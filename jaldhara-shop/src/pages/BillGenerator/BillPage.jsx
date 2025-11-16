@@ -13,7 +13,7 @@ export function BillPage() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/products");
+      const res = await fetch("https://jaldhara-react-1.onrender.com/api/products");
       const data = await res.json();
       setProducts(data);
     } catch (err) {

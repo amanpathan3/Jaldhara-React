@@ -13,7 +13,7 @@ export function EditProductForm({ product, setEditProduct, refreshProducts }) {
 
   const handleUpdate = async () => {
     try {
-      await fetch(`http://localhost:5000/api/products/${product.id}`, {
+      await fetch(`https://jaldhara-react-1.onrender.com/api/products/${product.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedProduct),
