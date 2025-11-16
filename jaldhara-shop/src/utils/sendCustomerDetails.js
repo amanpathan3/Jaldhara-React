@@ -1,3 +1,5 @@
+import { updateCategorySales } from "./updateDashboardData";
+
 export const sendCustomerData = async (savedCustomer, selectedProduct, products) => {
   try {
     // selectedCustomer → contains customer name, lastPurchaseDate etc
@@ -24,6 +26,7 @@ export const sendCustomerData = async (savedCustomer, selectedProduct, products)
         finalPrice: fullProduct
           ? (Number(item.quantity) * Number(fullProduct.pFinalPrice)).toFixed(2)
           : 0,
+        pCategory: fullProduct ? fullProduct.pCategory : "Others" // Add this
       };
     });
 
@@ -32,6 +35,7 @@ export const sendCustomerData = async (savedCustomer, selectedProduct, products)
       lastPurchaseDate: getFormattedDate(),
       products: formattedProducts,
     };
+    updateCategorySales(formattedProducts);
 
     // Send to backend
     const response = await fetch("http://localhost:5000/api/customers", {

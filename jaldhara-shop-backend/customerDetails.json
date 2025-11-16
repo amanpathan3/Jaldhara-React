@@ -215,5 +215,90 @@
       }
     ],
     "id": 1763291254038
+  },
+  {
+    "name": "",
+    "lastPurchaseDate": "16 Nov 2025",
+    "products": [
+      {
+        "name": "Pipe UPVC",
+        "size": "1/2\"",
+        "price": 256.5,
+        "qty": 1,
+        "finalPrice": "254.50"
+      }
+    ],
+    "id": 1763294617918
+  },
+  {
+    "name": "",
+    "lastPurchaseDate": "16 Nov 2025",
+    "products": [
+      {
+        "name": "Pipe UPVC",
+        "size": "1/2\"",
+        "price": 256.5,
+        "qty": 1,
+        "finalPrice": "254.50"
+      }
+    ],
+    "id": 1763294892348
+  },
+  {
+    "name": "",
+    "lastPurchaseDate": "16 Nov 2025",
+    "products": [
+      {
+        "name": "Pipe UPVC",
+        "size": "1/2\"",
+        "price": 256.5,
+        "qty": 1,
+        "finalPrice": "254.50"
+      }
+    ],
+    "id": 1763295563820
+  },
+  {
+    "name": "",
+    "lastPurchaseDate": "16 Nov 2025",
+    "products": [
+      {
+        "name": "Socket UPVC",
+        "size": "1/2\"",
+        "price": 9.5,
+        "qty": 1,
+        "finalPrice": "11.21"
+      }
+    ],
+    "id": 1763295596427
+  },
+  {
+    "name": "",
+    "lastPurchaseDate": "16 Nov 2025",
+    "products": [
+      {
+        "name": "Pipe UPVC",
+        "size": "1/2\"",
+        "price": 256.5,
+        "qty": 1,
+        "finalPrice": "254.50"
+      }
+    ],
+    "id": 1763295818735
+  },
+  {
+    "name": "",
+    "lastPurchaseDate": "16 Nov 2025",
+    "products": [
+      {
+        "name": "Pipe UPVC",
+        "size": "1/2\"",
+        "price": 256.5,
+        "qty": 1,
+        "finalPrice": "254.50",
+        "pCategory": "UPVC"
+      }
+    ],
+    "id": 1763296049595
   }
 ]

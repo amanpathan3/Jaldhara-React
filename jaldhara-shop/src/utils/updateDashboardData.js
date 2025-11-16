@@ -76,4 +76,33 @@ export const updateDailySales = async (totalPrice) => {
   }
 };
 
+export const updateCategorySales = async (selectedProducts) => {
+  try {
+    const response = await fetch("http://localhost:5000/api/dashboard");
+    const data = await response.json();
+    const dashboard = data[0];
+
+    const updatedCategorySales = dashboard.categorySales.map(cat => ({ ...cat }));
+
+    selectedProducts.forEach(prod => {
+  const categoryEntry = updatedCategorySales.find(c => c.category === prod.pCategory);
+  if (categoryEntry) {
+    categoryEntry.revenue += prod.finalPrice; // finalPrice is already a number
+  }
+});
+
+
+    await fetch("http://localhost:5000/api/dashboard", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ categorySales: updatedCategorySales }),
+    });
+
+    console.log("Category sales updated successfully:", updatedCategorySales);
+  } catch (error) {
+    console.error("Error updating category sales:", error);
+  }
+};
 

@@ -3,7 +3,7 @@ import { sendCustomerData } from "../../utils/sendCustomerDetails";
 import { handleGeneratePDF } from "../../utils/pdfGenerator";
 import { updateMonthlySales } from "../../utils/updateDashboardData";
 import { updateDailySales } from "../../utils/updateDashboardData";
-
+import { updateCategorySales } from "../../utils/updateDashboardData";
 export function ProductTable({ selectedProduct, setSelectedProduct, savedCustomer, products }) {
   const handleDelete = (index) => {
     setSelectedProduct(selectedProduct.filter((_, i) => i !== index));
