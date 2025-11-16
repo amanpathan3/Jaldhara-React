@@ -16,7 +16,11 @@ app.use('/api/customers', customerRoutes);
 
 app.get('/', (req, res) => {
     res.send('Backend is running!');
-});
+}); 
+
+const dashboardRoutes = require("./routes/dashboard");
+app.use("/api/dashboard", dashboardRoutes);
+
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

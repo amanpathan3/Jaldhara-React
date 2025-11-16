@@ -1,0 +1,32 @@
+[
+    {
+        "monthlySales": [
+            { "month": "Jan", "revenue": 5000 },
+            { "month": "Feb", "revenue": 6000 },
+            { "month": "Mar", "revenue": 6000 },
+            { "month": "April", "revenue": 6000 },
+            { "month": "May", "revenue": 6000 },
+            { "month": "June", "revenue": 6000 },
+            { "month": "July", "revenue": 6000 },
+            { "month": "Aug", "revenue": 6000 },
+            { "month": "Semp", "revenue": 6000 },
+            { "month": "Oct", "revenue": 6000 },
+            { "month": "Nov", "revenue": 6000 },
+            { "month": "Dec", "revenue": 6000 }
+        ],
+        "dailySales": [
+            { "date": "2025-11-14", "revenue": 200 },
+            { "date": "2025-11-15", "revenue": 400 }
+        ],
+        "productSales": [
+            { "productName": "20L Water Can", "revenue": 1200 },
+            { "productName": "10L Water Can", "revenue": 800 }
+        ],
+        "categorySales": [
+            { "category": "CPVC", "revenue": 1500 },
+            { "category": "UPVC", "revenue": 1200 },
+            { "category": "SWR", "revenue": 800 },
+            { "category": "Others", "revenue": 700 }
+        ]
+    }
+]
