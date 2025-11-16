@@ -82,15 +82,16 @@ export const updateCategorySales = async (selectedProducts) => {
     const data = await response.json();
     const dashboard = data[0];
 
+    // Create a copy of categorySales
     const updatedCategorySales = dashboard.categorySales.map(cat => ({ ...cat }));
 
     selectedProducts.forEach(prod => {
-  const categoryEntry = updatedCategorySales.find(c => c.category === prod.pCategory);
-  if (categoryEntry) {
-    categoryEntry.revenue += prod.finalPrice; // finalPrice is already a number
-  }
-});
-
+      const categoryEntry = updatedCategorySales.find(c => c.category === prod.pCategory);
+      if (categoryEntry) {
+        // Convert finalPrice to number before adding
+        categoryEntry.revenue += Number(prod.finalPrice) || 0;
+      }
+    });
 
     await fetch("http://localhost:5000/api/dashboard", {
       method: "PUT",
@@ -99,10 +100,7 @@ export const updateCategorySales = async (selectedProducts) => {
       },
       body: JSON.stringify({ categorySales: updatedCategorySales }),
     });
-
-    console.log("Category sales updated successfully:", updatedCategorySales);
   } catch (error) {
     console.error("Error updating category sales:", error);
   }
 };
-
