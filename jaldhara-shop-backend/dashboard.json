@@ -1,32 +1,78 @@
 [
-    {
-        "monthlySales": [
-            { "month": "Jan", "revenue": 5000 },
-            { "month": "Feb", "revenue": 6000 },
-            { "month": "Mar", "revenue": 6000 },
-            { "month": "April", "revenue": 6000 },
-            { "month": "May", "revenue": 6000 },
-            { "month": "June", "revenue": 6000 },
-            { "month": "July", "revenue": 6000 },
-            { "month": "Aug", "revenue": 6000 },
-            { "month": "Semp", "revenue": 6000 },
-            { "month": "Oct", "revenue": 6000 },
-            { "month": "Nov", "revenue": 6000 },
-            { "month": "Dec", "revenue": 6000 }
-        ],
-        "dailySales": [
-            { "date": "2025-11-14", "revenue": 200 },
-            { "date": "2025-11-15", "revenue": 400 }
-        ],
-        "productSales": [
-            { "productName": "20L Water Can", "revenue": 1200 },
-            { "productName": "10L Water Can", "revenue": 800 }
-        ],
-        "categorySales": [
-            { "category": "CPVC", "revenue": 1500 },
-            { "category": "UPVC", "revenue": 1200 },
-            { "category": "SWR", "revenue": 800 },
-            { "category": "Others", "revenue": 700 }
-        ]
-    }
+  {
+    "monthlySales": [
+      {
+        "month": "Jan",
+        "revenue": 0
+      },
+      {
+        "month": "Feb",
+        "revenue": 0
+      },
+      {
+        "month": "Mar",
+        "revenue": 0
+      },
+      {
+        "month": "April",
+        "revenue": 0
+      },
+      {
+        "month": "May",
+        "revenue": 0
+      },
+      {
+        "month": "June",
+        "revenue": 0
+      },
+      {
+        "month": "July",
+        "revenue": 0
+      },
+      {
+        "month": "Aug",
+        "revenue": 0
+      },
+      {
+        "month": "Semp",
+        "revenue": 0
+      },
+      {
+        "month": "Oct",
+        "revenue": 0
+      },
+      {
+        "month": "Nov",
+        "revenue": 5591.5
+      },
+      {
+        "month": "Dec",
+        "revenue": 0
+      }
+    ],
+    "dailySales": [
+      {
+        "date": "2025-11-16",
+        "revenue": 5591.5
+      }
+    ],
+    "categorySales": [
+      {
+        "category": "CPVC",
+        "revenue": 0
+      },
+      {
+        "category": "UPVC",
+        "revenue": 0
+      },
+      {
+        "category": "SWR",
+        "revenue": 0
+      },
+      {
+        "category": "Others",
+        "revenue": 0
+      }
+    ]
+  }
 ]

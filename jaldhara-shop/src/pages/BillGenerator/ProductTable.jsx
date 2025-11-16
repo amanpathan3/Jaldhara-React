@@ -1,6 +1,8 @@
 import { Edit, Trash2 } from "lucide-react";
 import { sendCustomerData } from "../../utils/sendCustomerDetails";
 import { handleGeneratePDF } from "../../utils/pdfGenerator";
+import { updateMonthlySales } from "../../utils/updateDashboardData";
+import { updateDailySales } from "../../utils/updateDashboardData";
 
 export function ProductTable({ selectedProduct, setSelectedProduct, savedCustomer, products }) {
   const handleDelete = (index) => {
@@ -14,7 +16,6 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
     if (!matched) return total;
     return total + matched.pFinalPrice * item.quantity;
   }, 0);
-
 
   return (
     <>
@@ -89,9 +90,16 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
 
         <div className="text-right mt-4 flex gap-5">
           <button
-            onClick={() => {
-              sendCustomerData(savedCustomer, selectedProduct, products);
-            }}
+              onClick={async () => {
+    try {
+      await sendCustomerData(savedCustomer, selectedProduct, products);
+      await updateMonthlySales(totalPrice);
+      await updateDailySales(totalPrice);
+    } catch (err) {
+      console.error(err);
+    }
+  }}
+
 
             className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 cursor-pointer w-full sm:w-auto"
           >
