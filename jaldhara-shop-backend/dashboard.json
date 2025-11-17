@@ -43,7 +43,7 @@
       },
       {
         "month": "Nov",
-        "revenue": 330.73
+        "revenue": 0
       },
       {
         "month": "Dec",
@@ -53,7 +53,7 @@
     "dailySales": [
       {
         "date": "2025-11-17",
-        "revenue": 330.73
+        "revenue": 0
       }
     ],
     "categorySales": [
@@ -63,7 +63,7 @@
       },
       {
         "category": "UPVC",
-        "revenue": 330.73
+        "revenue": 0
       },
       {
         "category": "SWR",
