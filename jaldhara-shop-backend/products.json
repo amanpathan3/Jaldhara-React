@@ -5,8 +5,8 @@
     "pSize": "1/2\"",
     "pPrice": 256.5,
     "pGst": "18",
-    "pDiscount": "20",
-    "pFinalPrice": 254.5,
+    "pDiscount": "63",
+    "pFinalPrice": 111.99,
     "pCategory": "UPVC"
   },
   {
@@ -15,8 +15,8 @@
     "pSize": "3/4\"",
     "pPrice": 342,
     "pGst": 18,
-    "pDiscount": 0,
-    "pFinalPrice": 403.56,
+    "pDiscount": "63",
+    "pFinalPrice": 149.32,
     "pCategory": "UPVC"
   },
   {
@@ -25,8 +25,8 @@
     "pSize": "1\"",
     "pPrice": 501,
     "pGst": 18,
-    "pDiscount": 0,
-    "pFinalPrice": 591.18,
+    "pDiscount": "63",
+    "pFinalPrice": 218.74,
     "pCategory": "UPVC"
   },
   {
@@ -35,8 +35,8 @@
     "pSize": "1 1/4\"",
     "pPrice": 673.5,
     "pGst": 18,
-    "pDiscount": 0,
-    "pFinalPrice": 794.43,
+    "pDiscount": "63",
+    "pFinalPrice": 294.05,
     "pCategory": "UPVC"
   },
   {
@@ -45,8 +45,8 @@
     "pSize": "1 1/2\"",
     "pPrice": 802.5,
     "pGst": 18,
-    "pDiscount": 0,
-    "pFinalPrice": 947.85,
+    "pDiscount": "63",
+    "pFinalPrice": 350.37,
     "pCategory": "UPVC"
   },
   {
