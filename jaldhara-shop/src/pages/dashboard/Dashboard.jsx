@@ -18,36 +18,43 @@ export function Dashboard() {
     const fetchData = async () => {
       try {
         const data = await getDashboardData();
-        // Use first document if exists, otherwise fallback to default
-        setDashboardData(data[0] || {
-          monthlySales: [
-            { month: "Jan", revenue: 0 },
-            { month: "Feb", revenue: 0 },
-            { month: "Mar", revenue: 0 },
-            { month: "April", revenue: 0 },
-            { month: "May", revenue: 0 },
-            { month: "June", revenue: 0 },
-            { month: "July", revenue: 0 },
-            { month: "Aug", revenue: 0 },
-            { month: "Semp", revenue: 0 },
-            { month: "Oct", revenue: 0 },
-            { month: "Nov", revenue: 0 },
-            { month: "Dec", revenue: 0 },
-          ],
-          dailySales: [],
-          categorySales: [
-            { category: "CPVC", revenue: 0 },
-            { category: "UPVC", revenue: 0 },
-            { category: "SWR", revenue: 0 },
-            { category: "Others", revenue: 0 },
-          ],
-        });
+        console.log("Fetched dashboard data:", data); // Debug log
+
+        if (data && data.length > 0) {
+          setDashboardData(data[0]); // Use first dashboard object
+        } else {
+          // Fallback if no dashboard exists
+          setDashboardData({
+            monthlySales: [
+              { month: "Jan", revenue: 0 },
+              { month: "Feb", revenue: 0 },
+              { month: "Mar", revenue: 0 },
+              { month: "April", revenue: 0 },
+              { month: "May", revenue: 0 },
+              { month: "June", revenue: 0 },
+              { month: "July", revenue: 0 },
+              { month: "Aug", revenue: 0 },
+              { month: "Semp", revenue: 0 },
+              { month: "Oct", revenue: 0 },
+              { month: "Nov", revenue: 0 },
+              { month: "Dec", revenue: 0 },
+            ],
+            dailySales: [],
+            categorySales: [
+              { category: "CPVC", revenue: 0 },
+              { category: "UPVC", revenue: 0 },
+              { category: "SWR", revenue: 0 },
+              { category: "Others", revenue: 0 },
+            ],
+          });
+        }
       } catch (err) {
         console.error("Failed to fetch dashboard data:", err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchData();
   }, []);
 

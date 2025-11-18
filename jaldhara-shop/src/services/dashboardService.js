@@ -1,15 +1,25 @@
 import axios from "axios";
 
-const BASE_URL = "https://jaldhara-react-1.onrender.com/api/dashboard"; // your backend route
+const BASE_URL = "https://jaldhara-react-1.onrender.com/api/dashboard";
 
 // GET dashboard data
 export const getDashboardData = async () => {
-  const response = await axios.get(BASE_URL);
-  return response.data[0]; // your JSON has an array with one object
+  try {
+    const response = await axios.get(BASE_URL);
+    return response.data; // returns array [dashboard]
+  } catch (error) {
+    console.error("Error fetching dashboard:", error);
+    return []; // fallback empty array
+  }
 };
 
-// UPDATE dashboard data (optional, if you want to modify)
+// UPDATE dashboard data
 export const updateDashboardData = async (data) => {
-  const response = await axios.put(BASE_URL, data);
-  return response.data;
+  try {
+    const response = await axios.put(BASE_URL, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating dashboard:", error);
+    throw error;
+  }
 };
