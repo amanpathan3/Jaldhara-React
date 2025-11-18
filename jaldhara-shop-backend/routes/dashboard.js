@@ -1,11 +1,14 @@
+const express = require("express");
+const router = express.Router();
 const Dashboard = require("../models/Dashboard");
 
-// GET dashboard
+// ======================
+// GET Dashboard
+// ======================
 router.get("/", async (req, res) => {
   try {
     let dashboard = await Dashboard.findOne();
     if (!dashboard) {
-      // create initial dashboard if not exist
       dashboard = new Dashboard({
         monthlySales: [
           { month: "Jan", revenue: 0 },
@@ -37,3 +40,29 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
+// ======================
+// PUT Dashboard
+// ======================
+router.put("/", async (req, res) => {
+  try {
+    const data = req.body; // frontend sends full dashboard object including _id
+    if (!data._id) return res.status(400).json({ error: "_id is required" });
+
+    const dashboard = await Dashboard.findById(data._id);
+    if (!dashboard) return res.status(404).json({ error: "Dashboard not found" });
+
+    // Update all arrays
+    dashboard.monthlySales = data.monthlySales || dashboard.monthlySales;
+    dashboard.dailySales = data.dailySales || dashboard.dailySales;
+    dashboard.categorySales = data.categorySales || dashboard.categorySales;
+
+    await dashboard.save();
+    res.json(dashboard);
+  } catch (error) {
+    console.error("Error updating dashboard:", error);
+    res.status(500).json({ error: "Failed to update dashboard" });
+  }
+});
+
+module.exports = router;
