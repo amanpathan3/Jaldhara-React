@@ -39,18 +39,40 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ✅ NEW: PUT route for updating dashboard
+// ✅ PUT route for updating dashboard (increment revenue)
 router.put("/", async (req, res) => {
   try {
-    const updatedData = req.body; // fullDashboard from frontend
+    const updatedData = req.body; // data from frontend
     const dashboard = await Dashboard.findOne();
-
     if (!dashboard) return res.status(404).json({ error: "Dashboard not found" });
 
-    // Only update allowed fields
-    if (updatedData.monthlySales) dashboard.monthlySales = updatedData.monthlySales;
-    if (updatedData.dailySales) dashboard.dailySales = updatedData.dailySales;
-    if (updatedData.categorySales) dashboard.categorySales = updatedData.categorySales;
+    // Increment monthly sales
+    if (updatedData.monthlySales) {
+      updatedData.monthlySales.forEach(newMonth => {
+        const monthEntry = dashboard.monthlySales.find(m => m.month === newMonth.month);
+        if (monthEntry) monthEntry.revenue += newMonth.revenue;
+      });
+    }
+
+    // Increment daily sales
+    if (updatedData.dailySales) {
+      updatedData.dailySales.forEach(newDay => {
+        const dayEntry = dashboard.dailySales.find(d => d.date === newDay.date);
+        if (dayEntry) {
+          dayEntry.revenue += newDay.revenue; // add revenue to existing day
+        } else {
+          dashboard.dailySales.push(newDay); // add new day if not exists
+        }
+      });
+    }
+
+    // Increment category sales
+    if (updatedData.categorySales) {
+      updatedData.categorySales.forEach(newCat => {
+        const catEntry = dashboard.categorySales.find(c => c.category === newCat.category);
+        if (catEntry) catEntry.revenue += newCat.revenue;
+      });
+    }
 
     await dashboard.save();
 
