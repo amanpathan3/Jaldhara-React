@@ -2,9 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Dashboard = require("../models/Dashboard");
 
-// ======================
-// GET Dashboard
-// ======================
+// GET dashboard
 router.get("/", async (req, res) => {
   try {
     let dashboard = await Dashboard.findOne();
@@ -41,27 +39,25 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ======================
-// PUT Dashboard
-// ======================
+// ✅ NEW: PUT route for updating dashboard
 router.put("/", async (req, res) => {
   try {
-    const data = req.body; // frontend sends full dashboard object including _id
-    if (!data._id) return res.status(400).json({ error: "_id is required" });
+    const updatedData = req.body; // fullDashboard from frontend
+    const dashboard = await Dashboard.findOne();
 
-    const dashboard = await Dashboard.findById(data._id);
     if (!dashboard) return res.status(404).json({ error: "Dashboard not found" });
 
-    // Update all arrays
-    dashboard.monthlySales = data.monthlySales || dashboard.monthlySales;
-    dashboard.dailySales = data.dailySales || dashboard.dailySales;
-    dashboard.categorySales = data.categorySales || dashboard.categorySales;
+    // Only update allowed fields
+    if (updatedData.monthlySales) dashboard.monthlySales = updatedData.monthlySales;
+    if (updatedData.dailySales) dashboard.dailySales = updatedData.dailySales;
+    if (updatedData.categorySales) dashboard.categorySales = updatedData.categorySales;
 
     await dashboard.save();
-    res.json(dashboard);
+
+    res.json({ message: "Dashboard updated successfully", dashboard });
   } catch (error) {
     console.error("Error updating dashboard:", error);
-    res.status(500).json({ error: "Failed to update dashboard" });
+    res.status(500).json({ error: "Server error" });
   }
 });
 
