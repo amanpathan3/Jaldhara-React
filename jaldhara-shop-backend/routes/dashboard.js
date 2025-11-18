@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Dashboard = require("../models/Dashboard");
+const Dashboard = require("../models/dashboardModel");
 
 // GET dashboard
 router.get("/", async (req, res) => {
