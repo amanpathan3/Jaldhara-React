@@ -3,20 +3,22 @@
 // =========================
 export const updateMonthlySales = async (totalPrice) => {
   try {
-    const monthNames = ["Jan","Feb","Mar","April","May","June","July","Aug","Semp","Oct","Nov","Dec"];
+    const monthNames = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Semp", "Oct", "Nov", "Dec"];
     const today = new Date();
     const currentMonth = monthNames[today.getMonth()];
 
+    // Fetch full dashboard object
     const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
-    const dashboard = await response.json(); 
-    const current = dashboard[0] || { monthlySales: [], dailySales: [], categorySales: [] };
+    const dashboard = await response.json();
 
-    const updatedMonthlySales = current.monthlySales.map(item => 
-      item.month === currentMonth
-        ? { ...item, revenue: Number(item.revenue) + Number(totalPrice) }
-        : { ...item, revenue: Number(item.revenue) }
+    const current = Array.isArray(dashboard) ? dashboard[0] : dashboard;
+
+    // Update monthlySales
+    const updatedMonthlySales = current.monthlySales.map(item =>
+      item.month === currentMonth ? { ...item, revenue: item.revenue + totalPrice } : item
     );
 
+    // Send full object
     const fullDashboard = { ...current, monthlySales: updatedMonthlySales };
 
     await fetch("https://jaldhara-react-1.onrender.com/api/dashboard", {
@@ -41,19 +43,20 @@ export const updateDailySales = async (totalPrice) => {
     const todayStr = `${yyyy}-${mm}-${dd}`;
 
     const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
-    const dashboard = (await response.json())[0] || { monthlySales: [], dailySales: [], categorySales: [] };
+    const dashboard = await response.json();
+    const current = Array.isArray(dashboard) ? dashboard[0] : dashboard;
 
-    let dailySalesUpdated = dashboard.dailySales || [];
-    if (!Array.isArray(dailySalesUpdated)) dailySalesUpdated = [];
-
+    // Update dailySales
+    let dailySalesUpdated = Array.isArray(current.dailySales) ? current.dailySales : [];
     const index = dailySalesUpdated.findIndex(item => item.date === todayStr);
+
     if (index !== -1) {
-      dailySalesUpdated[index].revenue = Number(dailySalesUpdated[index].revenue) + Number(totalPrice);
+      dailySalesUpdated[index].revenue += totalPrice;
     } else {
-      dailySalesUpdated.push({ date: todayStr, revenue: Number(totalPrice) });
+      dailySalesUpdated.push({ date: todayStr, revenue: totalPrice });
     }
 
-    const fullDashboard = { ...dashboard, dailySales: dailySalesUpdated };
+    const fullDashboard = { ...current, dailySales: dailySalesUpdated };
 
     await fetch("https://jaldhara-react-1.onrender.com/api/dashboard", {
       method: "PUT",
@@ -71,9 +74,11 @@ export const updateDailySales = async (totalPrice) => {
 export const updateCategorySales = async (selectedProducts) => {
   try {
     const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
-    const dashboard = (await response.json())[0] || { monthlySales: [], dailySales: [], categorySales: [] };
+    const dashboard = await response.json();
+    const current = Array.isArray(dashboard) ? dashboard[0] : dashboard;
 
-    const updatedCategorySales = dashboard.categorySales.map(cat => ({ ...cat, revenue: Number(cat.revenue) }));
+    // Update categorySales
+    const updatedCategorySales = current.categorySales.map(cat => ({ ...cat }));
 
     selectedProducts.forEach(prod => {
       const catEntry = updatedCategorySales.find(c => c.category === prod.pCategory);
@@ -82,7 +87,7 @@ export const updateCategorySales = async (selectedProducts) => {
       }
     });
 
-    const fullDashboard = { ...dashboard, categorySales: updatedCategorySales };
+    const fullDashboard = { ...current, categorySales: updatedCategorySales };
 
     await fetch("https://jaldhara-react-1.onrender.com/api/dashboard", {
       method: "PUT",
