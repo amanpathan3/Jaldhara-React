@@ -1,39 +1,36 @@
-//Monthly Sales
+// =========================
+// Update Monthly Sales
+// =========================
 export const updateMonthlySales = async (totalPrice) => {
   try {
     const monthNames = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Semp", "Oct", "Nov", "Dec"];
     const today = new Date();
-    const currentMonth = monthNames[today.getMonth()]; // getMonth() returns 0-11
+    const currentMonth = monthNames[today.getMonth()];
 
     const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
-    const data = await response.json();
+    const dashboard = await response.json(); 
+    const current = dashboard[0]; // full object
 
+    const updatedMonthlySales = current.monthlySales.map(item => 
+      item.month === currentMonth ? { ...item, revenue: item.revenue + totalPrice } : item
+    );
 
-    const updatedMonthlySales = data[0].monthlySales.map((item) => {
-      if (item.month === currentMonth) {
-        return {
-          ...item,
-          revenue: item.revenue + totalPrice // add new revenue
-        };
-      }
-      return item;
-    });
+    // Send full object to backend
+    const fullDashboard = { ...current, monthlySales: updatedMonthlySales };
 
-    const updateResponse = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard", {
+    await fetch("https://jaldhara-react-1.onrender.com/api/dashboard", {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ monthlySales: updatedMonthlySales }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(fullDashboard),
     });
   } catch (error) {
     console.error("Error updating monthly sales:", error);
   }
 };
 
-
-//DailySales
-
+// =========================
+// Update Daily Sales
+// =========================
 export const updateDailySales = async (totalPrice) => {
   try {
     const today = new Date();
@@ -42,63 +39,54 @@ export const updateDailySales = async (totalPrice) => {
     const dd = String(today.getDate()).padStart(2, "0");
     const todayStr = `${yyyy}-${mm}-${dd}`;
 
-    // GET FULL DASHBOARD DATA
     const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
-    const data = await response.json();
-    const dashboard = data[0]; // full object
+    const dashboard = (await response.json())[0];
 
-    // ENSURE ARRAY EXISTS
     let dailySalesUpdated = dashboard.dailySales || [];
     if (!Array.isArray(dailySalesUpdated)) dailySalesUpdated = [];
 
     const index = dailySalesUpdated.findIndex(item => item.date === todayStr);
-
     if (index !== -1) {
       dailySalesUpdated[index].revenue += totalPrice;
     } else {
       dailySalesUpdated.push({ date: todayStr, revenue: totalPrice });
     }
 
-    // 🔥 IMPORTANT: SEND FULL OBJECT (NOT JUST dailySales)
-    const finalUpdatedDashboard = {
-      ...dashboard,
-      dailySales: dailySalesUpdated,
-    };
+    const fullDashboard = { ...dashboard, dailySales: dailySalesUpdated };
 
     await fetch("https://jaldhara-react-1.onrender.com/api/dashboard", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(finalUpdatedDashboard),
+      body: JSON.stringify(fullDashboard),
     });
-
   } catch (error) {
     console.error("Error updating daily sales:", error);
   }
 };
 
+// =========================
+// Update Category Sales
+// =========================
 export const updateCategorySales = async (selectedProducts) => {
   try {
     const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
-    const data = await response.json();
-    const dashboard = data[0];
+    const dashboard = (await response.json())[0];
 
-    // Create a copy of categorySales
     const updatedCategorySales = dashboard.categorySales.map(cat => ({ ...cat }));
 
     selectedProducts.forEach(prod => {
-      const categoryEntry = updatedCategorySales.find(c => c.category === prod.pCategory);
-      if (categoryEntry) {
-        // Convert finalPrice to number before adding
-        categoryEntry.revenue += Number(prod.finalPrice) || 0;
+      const catEntry = updatedCategorySales.find(c => c.category === prod.pCategory);
+      if (catEntry) {
+        catEntry.revenue += Number(prod.finalPrice) || 0;
       }
     });
 
+    const fullDashboard = { ...dashboard, categorySales: updatedCategorySales };
+
     await fetch("https://jaldhara-react-1.onrender.com/api/dashboard", {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ categorySales: updatedCategorySales }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(fullDashboard),
     });
   } catch (error) {
     console.error("Error updating category sales:", error);
