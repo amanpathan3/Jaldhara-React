@@ -1,68 +1,44 @@
 const express = require("express");
-const fs = require("fs");
 const router = express.Router();
+const Customer = require("../models/customerModel");
 
-const DATA_FILE = "./customerDetails.json";
-
-// Read JSON file
-function readData() {
-  return JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
-}
-
-// Write JSON file
-function writeData(data) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-}
-
-// ----------------------
-// GET ALL CUSTOMERS
-// ----------------------
-router.get("/", (req, res) => {
-  const data = readData();
-  res.json(data);
+// GET all customers
+router.get("/", async (req, res) => {
+  const customers = await Customer.find();
+  res.json(customers);
 });
 
-// ----------------------
-// ADD NEW CUSTOMER (POST)
-// ----------------------
-router.post("/", (req, res) => {
-  const customers = readData();
-  const newCustomer = req.body;
+// POST - Add customer
+router.post("/", async (req, res) => {
+  const last = await Customer.findOne().sort({ id: -1 });
+  const newId = last ? last.id + 1 : Date.now();
 
-  newCustomer.id = Date.now(); // Auto ID
-  customers.push(newCustomer);
+  const newCustomer = new Customer({
+    id: newId,
+    ...req.body
+  });
 
-  writeData(customers);
+  await newCustomer.save();
   res.json({ message: "Customer added", customer: newCustomer });
 });
 
-// ----------------------
-// UPDATE CUSTOMER (PUT)
-// ----------------------
-router.put("/:id", (req, res) => {
-  const customers = readData();
-  const customerId = parseInt(req.params.id);
-  const updatedData = req.body;
+// PUT update
+router.put("/:id", async (req, res) => {
+  const updated = await Customer.findOneAndUpdate(
+    { id: req.params.id },
+    req.body,
+    { new: true }
+  );
 
-  const index = customers.findIndex(c => c.id === customerId);
-  if (index === -1) return res.status(404).json({ message: "Customer not found" });
-
-  customers[index] = { ...customers[index], ...updatedData };
-  writeData(customers);
-
-  res.json({ message: "Customer updated", customer: customers[index] });
+  if (!updated) return res.status(404).json({ message: "Customer not found" });
+  res.json({ message: "Customer updated", customer: updated });
 });
 
-// ----------------------
-// DELETE CUSTOMER
-// ----------------------
-router.delete("/:id", (req, res) => {
-  const customers = readData();
-  const customerId = parseInt(req.params.id);
+// DELETE customer
+router.delete("/:id", async (req, res) => {
+  const deleted = await Customer.findOneAndDelete({ id: req.params.id });
 
-  const filtered = customers.filter(c => c.id !== customerId);
-  writeData(filtered);
-
+  if (!deleted) return res.status(404).json({ message: "Customer not found" });
   res.json({ message: "Customer deleted" });
 });
 

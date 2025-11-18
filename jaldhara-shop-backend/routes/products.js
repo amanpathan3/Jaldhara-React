@@ -1,74 +1,42 @@
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
-
 const router = express.Router();
+const Product = require("../models/productModel");
 
-// ✅ Path to JSON file
-const dataPath = path.join(__dirname, "../products.json");
-
-// 🟢 Function to read products
-const readProducts = () => {
-  try {
-    const data = fs.readFileSync(dataPath, "utf8");
-    return JSON.parse(data);
-  } catch (error) {
-    console.error("Error reading products.json:", error);
-    return [];
-  }
-};
-
-// 🟡 Function to write products
-const writeProducts = (data) => {
-  fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-};
-
-// 🔹 GET - Fetch all products
-router.get("/", (req, res) => {
-  const products = readProducts();
+// GET all products
+router.get("/", async (req, res) => {
+  const products = await Product.find();
   res.json(products);
 });
 
-// 🔹 POST - Add a new product
-router.post("/", (req, res) => {
-  const products = readProducts();
-  const newProduct = {
-    id: products.length ? products[products.length - 1].id + 1 : 1,
-    ...req.body,
-  };
-  products.push(newProduct);
-  writeProducts(products);
-  res.json({ message: "✅ Product added successfully", product: newProduct });
+// POST - Add new product
+router.post("/", async (req, res) => {
+  const last = await Product.findOne().sort({ id: -1 });
+  const newId = last ? last.id + 1 : 1;
+
+  const newProduct = new Product({ id: newId, ...req.body });
+  await newProduct.save();
+
+  res.json({ message: "Product added", product: newProduct });
 });
 
-// 🔹 PUT - Update product by id
-router.put("/:id", (req, res) => {
-  const products = readProducts();
-  const { id } = req.params;
-  const index = products.findIndex((p) => p.id == id);
+// PUT - Update product
+router.put("/:id", async (req, res) => {
+  const updated = await Product.findOneAndUpdate(
+    { id: req.params.id },
+    req.body,
+    { new: true }
+  );
 
-  if (index === -1) {
-    return res.status(404).json({ message: "❌ Product not found" });
-  }
-
-  products[index] = { ...products[index], ...req.body };
-  writeProducts(products);
-  res.json({ message: "✅ Product updated successfully", product: products[index] });
+  if (!updated) return res.status(404).json({ message: "Product not found" });
+  res.json({ message: "Product updated", product: updated });
 });
 
-// 🔹 DELETE - Delete product by id
-router.delete("/:id", (req, res) => {
-  const products = readProducts();
-  const { id } = req.params;
-  const index = products.findIndex((p) => p.id == id);
+// DELETE
+router.delete("/:id", async (req, res) => {
+  const deleted = await Product.findOneAndDelete({ id: req.params.id });
 
-  if (index === -1) {
-    return res.status(404).json({ message: "❌ Product not found" });
-  }
-
-  products.splice(index, 1);
-  writeProducts(products);
-  res.json({ message: "🗑️ Product deleted successfully" });
+  if (!deleted) return res.status(404).json({ message: "Product not found" });
+  res.json({ message: "Product deleted" });
 });
 
 module.exports = router;
