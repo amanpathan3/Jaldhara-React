@@ -18,7 +18,6 @@ export function Dashboard() {
     const fetchData = async () => {
       try {
         const data = await getDashboardData();
-        console.log("Fetched dashboard data:", data); // Debug log
 
         if (data && data.length > 0) {
           setDashboardData(data[0]); // Use first dashboard object
