@@ -28,6 +28,7 @@ export const updateDashboard = async (selectedProducts, totalPrice) => {
     } else {
       dailySales.push({ date: todayStr, revenue: incomingPaise / 100 });
     }
+    console.log("Aman donnnn...")
 
     // ==========================
     // 2️⃣ UPDATE MONTHLY SALES
