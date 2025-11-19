@@ -81,6 +81,7 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
             <tr className="bg-gray-100 font-semibold text-center">
               <td colSpan="6" className="p-2 border text-right">Total: ₹{(totalPrice).toFixed(2)}</td>
               <td className="p-2 border"></td>
+              {console.log(111)}
             </tr>
 
           </tbody>
@@ -91,10 +92,10 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
           onClick={async () => {
             try {
               await sendCustomerData(savedCustomer, selectedProduct, products);
-
+              console.log(1);
               // 🚨 ONLY ONE UPDATE FUNCTION NOW
               await updateDashboard(selectedProduct, totalPrice);
-
+              console.log(0);
             } catch (err) {
               console.error(err);
             }
