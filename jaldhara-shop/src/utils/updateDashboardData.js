@@ -1,27 +1,31 @@
 export const updateMonthlySales = async (totalPrice) => {
   try {
-    const monthNames = ["Jan","Feb","Mar","April","May","June","July","Aug","Semp","Oct","Nov","Dec"];
+    const incoming = Number(totalPrice) || 0;
+    const incomingPaise = Math.round(incoming * 100);
+
     const today = new Date();
-    const currentMonth = monthNames[today.getMonth()];
+    const currentMonth = today.toLocaleString("en-US", { month: "short" }); // e.g. "Nov"
 
     const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
     const dashboard = await response.json();
     const current = Array.isArray(dashboard) ? dashboard[0] : dashboard;
 
-    const monthlySales = Array.isArray(current.monthlySales) ? current.monthlySales : [];
+    const monthlySales = Array.isArray(current.monthlySales) ? [...current.monthlySales] : [];
 
-    const updatedMonthlySales = monthlySales.map(item => {
-      if (item.month === currentMonth) {
-        const incomingPaise = Math.round(totalPrice * 100);
-        const existingPaise = Math.round((item.revenue || 0) * 100);
-        const newPaise = existingPaise + incomingPaise;
+    const idx = monthlySales.findIndex(m => m.month === currentMonth);
 
-        return { ...item, revenue: Number((newPaise / 100).toFixed(2)) };
-      }
-      return item;
-    });
+    if (idx !== -1) {
+      const existingPaise = Math.round((Number(monthlySales[idx].revenue) || 0) * 100);
+      const newPaise = existingPaise + incomingPaise;
+      monthlySales[idx].revenue = Number((newPaise / 100).toFixed(2));
+    } else {
+      monthlySales.push({
+        month: currentMonth,
+        revenue: Number((incomingPaise / 100).toFixed(2))
+      });
+    }
 
-    const fullDashboard = { ...current, monthlySales: updatedMonthlySales };
+    const fullDashboard = { ...current, monthlySales };
 
     await fetch("https://jaldhara-react-1.onrender.com/api/dashboard", {
       method: "PUT",
@@ -33,8 +37,12 @@ export const updateMonthlySales = async (totalPrice) => {
   }
 };
 
+
 export const updateDailySales = async (totalPrice) => {
   try {
+    const incoming = Number(totalPrice) || 0;
+    const incomingPaise = Math.round(incoming * 100);
+
     const today = new Date();
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, "0");
@@ -45,14 +53,12 @@ export const updateDailySales = async (totalPrice) => {
     const dashboard = await response.json();
     const current = Array.isArray(dashboard) ? dashboard[0] : dashboard;
 
-    const dailySales = Array.isArray(current.dailySales) ? current.dailySales : [];
-
-    const incomingPaise = Math.round(totalPrice * 100);
+    const dailySales = Array.isArray(current.dailySales) ? [...current.dailySales] : [];
 
     const index = dailySales.findIndex(item => item.date === todayStr);
 
     if (index !== -1) {
-      const existingPaise = Math.round((dailySales[index].revenue || 0) * 100);
+      const existingPaise = Math.round((Number(dailySales[index].revenue) || 0) * 100);
       const newPaise = existingPaise + incomingPaise;
       dailySales[index].revenue = Number((newPaise / 100).toFixed(2));
     } else {
@@ -75,26 +81,44 @@ export const updateDailySales = async (totalPrice) => {
 };
 
 
+
 export const updateCategorySales = async (selectedProducts) => {
   try {
+    if (!Array.isArray(selectedProducts) || selectedProducts.length === 0) return;
+
     const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
     const dashboard = await response.json();
     const current = Array.isArray(dashboard) ? dashboard[0] : dashboard;
 
-    const categorySales = Array.isArray(current.categorySales) ? current.categorySales : [];
+    const categorySales = Array.isArray(current.categorySales) ? [...current.categorySales] : [];
 
-    selectedProducts.forEach(prod => {
-      const catEntry = categorySales.find(c => c.category === prod.pCategory);
-      if (catEntry) {
-        const incomingPaise = Math.round((Number(prod.finalPrice) || 0) * 100);
-        const existingPaise = Math.round((catEntry.revenue || 0) * 100);
-        const newPaise = existingPaise + incomingPaise;
-
-        catEntry.revenue = Number((newPaise / 100).toFixed(2));
-      }
+    // Map existing categories to paise
+    const catMap = new Map();
+    categorySales.forEach(c => {
+      catMap.set(c.category, Math.round((Number(c.revenue) || 0) * 100));
     });
 
-    const fullDashboard = { ...current, categorySales };
+    // Add incoming products (sum per category in the batch)
+    selectedProducts.forEach(prod => {
+      const cat = prod.pCategory;
+      const priceNum = Number(prod.finalPrice) || 0;
+      const incomingPaise = Math.round(priceNum * 100);
+      const prev = catMap.get(cat) || 0;
+      catMap.set(cat, prev + incomingPaise);
+    });
+
+    // Build updated array: keep existing order, then new categories
+    const updatedCategorySales = [];
+    categorySales.forEach(c => {
+      const paise = catMap.get(c.category) || 0;
+      updatedCategorySales.push({ category: c.category, revenue: Number((paise / 100).toFixed(2)) });
+      catMap.delete(c.category);
+    });
+    for (const [category, paise] of catMap.entries()) {
+      updatedCategorySales.push({ category, revenue: Number((paise / 100).toFixed(2)) });
+    }
+
+    const fullDashboard = { ...current, categorySales: updatedCategorySales };
 
     await fetch("https://jaldhara-react-1.onrender.com/api/dashboard", {
       method: "PUT",
