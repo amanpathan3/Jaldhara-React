@@ -1,7 +1,11 @@
 import { Edit, Trash2 } from "lucide-react";
 import { sendCustomerData } from "../../utils/sendCustomerDetails";
 import { handleGeneratePDF } from "../../utils/pdfGenerator";
-import { updateDashboard } from "../../utils/updateDashboardData";
+import { updateCategorySales} from "../../utils/updateDashboardData";
+import { updateDailySales } from "../../utils/updateDashboardData";
+import { updateMonthlySales } from "../../utils/updateDashboardData";
+
+
 export function ProductTable({ selectedProduct, setSelectedProduct, savedCustomer, products }) {
   const handleDelete = (index) => {
     setSelectedProduct(selectedProduct.filter((_, i) => i !== index));
@@ -81,7 +85,6 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
             <tr className="bg-gray-100 font-semibold text-center">
               <td colSpan="6" className="p-2 border text-right">Total: ₹{(totalPrice).toFixed(2)}</td>
               <td className="p-2 border"></td>
-              {console.log(111)}
             </tr>
 
           </tbody>
@@ -89,21 +92,33 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
 
         <div className="text-right mt-4 flex gap-5">
          <button
-          onClick={async () => {
-            try {
-              await sendCustomerData(savedCustomer, selectedProduct, products);
-              console.log(1);
-              // 🚨 ONLY ONE UPDATE FUNCTION NOW
-              await updateDashboard(selectedProduct, totalPrice);
-              console.log(0);
-            } catch (err) {
-              console.error(err);
-            }
-          }}
-          className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 cursor-pointer w-full sm:w-auto"
-        >
-          Save Customer Details
-        </button>
+         onClick={async () => {
+              try {
+                // 1️⃣ Save customer data first
+                await sendCustomerData(savedCustomer, selectedProduct, products);
+                console.log("📌 Customer Data Saved");
+
+                // 2️⃣ Update daily sales
+                await updateDailySales(totalPrice);
+                console.log("📌 Daily Sales Updated");
+
+                // 3️⃣ Update monthly sales
+                await updateMonthlySales(totalPrice);
+                console.log("📌 Monthly Sales Updated");
+
+                // 4️⃣ Update category sales
+                await updateCategorySales(selectedProduct);
+                console.log("📌 Category Sales Updated");
+
+              } catch (err) {
+                console.error("❌ Error updating dashboard:", err);
+              }
+            }}
+            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 cursor-pointer w-full sm:w-auto"
+          >
+            Save Customer Details
+          </button>
+
 
           <button
             onClick={() => {

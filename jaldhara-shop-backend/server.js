@@ -20,9 +20,9 @@ app.use('/api/products', productRoutes);
 const customerRoutes = require('./routes/customerDetails');
 app.use('/api/customers', customerRoutes);
 
-// Dashboard Routes
-const dashboardRoutes = require("./routes/dashboard");
-app.use("/api/dashboard", dashboardRoutes);
+const dashboardMongo = require("./routes/dashboardMongo");
+app.use("/api/dashboard", dashboardMongo);
+
 
 app.get('/', (req, res) => {
     res.send('Backend is running!');

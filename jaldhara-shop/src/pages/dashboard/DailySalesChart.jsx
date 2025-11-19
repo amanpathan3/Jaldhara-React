@@ -1,8 +1,27 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale,Filler, LinearScale, LineElement, PointElement, Title, Tooltip, Legend } from "chart.js";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  Filler,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend
+} from "chart.js";
 
-ChartJS.register(CategoryScale,Filler, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  Filler,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export default function DailySalesChart({ data }) {
   const chartData = {
@@ -10,7 +29,7 @@ export default function DailySalesChart({ data }) {
     datasets: [
       {
         label: "Daily Revenue",
-        data: data.map((d) => d.revenue),
+        data: data.map((d) => d.totalSales), // FIXED HERE
         borderColor: "#2563eb",
         backgroundColor: "rgba(37, 99, 235, 0.1)",
         tension: 0.4,
