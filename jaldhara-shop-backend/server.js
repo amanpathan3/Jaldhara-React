@@ -1,14 +1,15 @@
 const express = require('express');
 const cors = require('cors');
-require("dotenv").config();        // ✅ Load environment variables
-const connectDB = require("./config/db");   // ✅ Import MongoDB connection file
+require("dotenv").config();
+const connectDB = require("./config/db");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Connect to MongoDB
+// Connect to MongoDB
 connectDB();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
@@ -20,14 +21,23 @@ app.use('/api/products', productRoutes);
 const customerRoutes = require('./routes/customerDetails');
 app.use('/api/customers', customerRoutes);
 
-const dashboardMongo = require("./routes/dashboardMongo");
-app.use("/api/dashboard", dashboardMongo);
+// Dashboard Routes
+const dashboardRouter = require("./routes/dashboard");       // GET dashboard data
+const dailyRouter = require("./routes/dailySales");          // POST daily-sales-update
+const monthlyRouter = require("./routes/monthlySales");      // POST monthly-sales-update
+const categoryRouter = require("./routes/categorySales");    // POST category-sales-update
 
+app.use("/api/dashboard", dashboardRouter);
+app.use("/api/dashboard", dailyRouter);
+app.use("/api/dashboard", monthlyRouter);
+app.use("/api/dashboard", categoryRouter);
 
+// Root
 app.get('/', (req, res) => {
     res.send('Backend is running!');
 });
 
+// Start server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
