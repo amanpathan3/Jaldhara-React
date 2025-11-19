@@ -1,26 +1,25 @@
-// =========================
-// Update Monthly Sales
-// =========================
 export const updateMonthlySales = async (totalPrice) => {
   try {
     const monthNames = ["Jan","Feb","Mar","April","May","June","July","Aug","Semp","Oct","Nov","Dec"];
     const today = new Date();
     const currentMonth = monthNames[today.getMonth()];
 
-    // Fetch dashboard
     const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
     const dashboard = await response.json();
     const current = Array.isArray(dashboard) ? dashboard[0] : dashboard;
 
-    // Ensure monthlySales exists
     const monthlySales = Array.isArray(current.monthlySales) ? current.monthlySales : [];
 
-    // Update current month revenue
-    const updatedMonthlySales = monthlySales.map(item =>
-      item.month === currentMonth
-        ? { ...item, revenue: (item.revenue || 0) + totalPrice }
-        : item
-    );
+    const updatedMonthlySales = monthlySales.map(item => {
+      if (item.month === currentMonth) {
+        const incomingPaise = Math.round(totalPrice * 100);
+        const existingPaise = Math.round((item.revenue || 0) * 100);
+        const newPaise = existingPaise + incomingPaise;
+
+        return { ...item, revenue: Number((newPaise / 100).toFixed(2)) };
+      }
+      return item;
+    });
 
     const fullDashboard = { ...current, monthlySales: updatedMonthlySales };
 
@@ -34,15 +33,12 @@ export const updateMonthlySales = async (totalPrice) => {
   }
 };
 
-// =========================
-// Update Daily Sales
-// =========================
 export const updateDailySales = async (totalPrice) => {
   try {
     const today = new Date();
     const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2,"0");
-    const dd = String(today.getDate()).padStart(2,"0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
     const todayStr = `${yyyy}-${mm}-${dd}`;
 
     const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
@@ -51,9 +47,20 @@ export const updateDailySales = async (totalPrice) => {
 
     const dailySales = Array.isArray(current.dailySales) ? current.dailySales : [];
 
+    const incomingPaise = Math.round(totalPrice * 100);
+
     const index = dailySales.findIndex(item => item.date === todayStr);
-    if (index !== -1) dailySales[index].revenue += totalPrice;
-    else dailySales.push({ date: todayStr, revenue: totalPrice });
+
+    if (index !== -1) {
+      const existingPaise = Math.round((dailySales[index].revenue || 0) * 100);
+      const newPaise = existingPaise + incomingPaise;
+      dailySales[index].revenue = Number((newPaise / 100).toFixed(2));
+    } else {
+      dailySales.push({
+        date: todayStr,
+        revenue: Number((incomingPaise / 100).toFixed(2))
+      });
+    }
 
     const fullDashboard = { ...current, dailySales };
 
@@ -67,9 +74,7 @@ export const updateDailySales = async (totalPrice) => {
   }
 };
 
-// =========================
-// Update Category Sales
-// =========================
+
 export const updateCategorySales = async (selectedProducts) => {
   try {
     const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
@@ -80,7 +85,13 @@ export const updateCategorySales = async (selectedProducts) => {
 
     selectedProducts.forEach(prod => {
       const catEntry = categorySales.find(c => c.category === prod.pCategory);
-      if (catEntry) catEntry.revenue += Number(prod.finalPrice) || 0;
+      if (catEntry) {
+        const incomingPaise = Math.round((Number(prod.finalPrice) || 0) * 100);
+        const existingPaise = Math.round((catEntry.revenue || 0) * 100);
+        const newPaise = existingPaise + incomingPaise;
+
+        catEntry.revenue = Number((newPaise / 100).toFixed(2));
+      }
     });
 
     const fullDashboard = { ...current, categorySales };
@@ -94,3 +105,4 @@ export const updateCategorySales = async (selectedProducts) => {
     console.error("Error updating category sales:", error);
   }
 };
+
