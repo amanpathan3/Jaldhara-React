@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 
-const DailySalesSchema = new mongoose.Schema({
+const dailySalesSchema = new mongoose.Schema({
   date: { type: String, required: true },
-  totalSales: { type: Number, required: true },
-  orders: { type: Number, required: true }
+  revenue: { type: Number, default: 0 },
 });
 
-module.exports = mongoose.model("DailySales", DailySalesSchema);
+module.exports = mongoose.model("DailySales", dailySalesSchema);

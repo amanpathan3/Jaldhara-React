@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-const MonthlySalesSchema = new mongoose.Schema({
+const monthlySalesSchema = new mongoose.Schema({
   month: { type: String, required: true },
-  revenue: { type: Number, required: true }
+  revenue: { type: Number, default: 0 },
 });
 
-module.exports = mongoose.model("MonthlySales", MonthlySalesSchema);
+module.exports = mongoose.model("MonthlySales", monthlySalesSchema);

@@ -5,16 +5,19 @@ const Monthly = require("../models/MonthlySales");
 router.post("/monthly-sales-update", async (req, res) => {
   try {
     const { month, amount } = req.body;
-    let record = await Monthly.findOne({ month });
-    if (record) {
-      record.revenue += amount / 100;
-      await record.save();
+    if (!month || amount == null) return res.status(400).json({ error: "Month or amount missing" });
+
+    const existing = await Monthly.findOne({ month });
+    if (existing) {
+      existing.revenue += amount / 100;
+      await existing.save();
     } else {
       await Monthly.create({ month, revenue: amount / 100 });
     }
-    res.json({ success: true });
+
+    res.json({ message: "Monthly Sales Updated" });
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 

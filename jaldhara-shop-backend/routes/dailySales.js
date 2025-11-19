@@ -2,20 +2,22 @@ const express = require("express");
 const router = express.Router();
 const Daily = require("../models/DailySales");
 
-// POST /api/dashboard/daily-sales-update
 router.post("/daily-sales-update", async (req, res) => {
   try {
     const { date, amount } = req.body;
-    let record = await Daily.findOne({ date });
-    if (record) {
-      record.revenue += amount / 100;
-      await record.save();
+    if (!date || amount == null) return res.status(400).json({ error: "Date or amount missing" });
+
+    const existing = await Daily.findOne({ date });
+    if (existing) {
+      existing.revenue += amount / 100;  // amount is in paise
+      await existing.save();
     } else {
       await Daily.create({ date, revenue: amount / 100 });
     }
-    res.json({ success: true });
+
+    res.json({ message: "Daily Sales Updated" });
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
