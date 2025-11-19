@@ -40,32 +40,27 @@ export const updateMonthlySales = async (totalPrice) => {
 
 export const updateDailySales = async (totalPrice) => {
   try {
-    const incoming = Number(totalPrice) || 0;
-    const incomingPaise = Math.round(incoming * 100);
+    const pricePaise = Math.round(totalPrice * 100); // convert to integer paise
 
     const today = new Date();
     const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, "0");
-    const dd = String(today.getDate()).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2,"0");
+    const dd = String(today.getDate()).padStart(2,"0");
     const todayStr = `${yyyy}-${mm}-${dd}`;
 
     const response = await fetch("https://jaldhara-react-1.onrender.com/api/dashboard");
     const dashboard = await response.json();
     const current = Array.isArray(dashboard) ? dashboard[0] : dashboard;
 
-    const dailySales = Array.isArray(current.dailySales) ? [...current.dailySales] : [];
+    const dailySales = Array.isArray(current.dailySales) ? current.dailySales : [];
 
     const index = dailySales.findIndex(item => item.date === todayStr);
 
     if (index !== -1) {
-      const existingPaise = Math.round((Number(dailySales[index].revenue) || 0) * 100);
-      const newPaise = existingPaise + incomingPaise;
-      dailySales[index].revenue = Number((newPaise / 100).toFixed(2));
+      const existingPaise = Math.round(dailySales[index].revenue * 100);
+      dailySales[index].revenue = (existingPaise + pricePaise) / 100;
     } else {
-      dailySales.push({
-        date: todayStr,
-        revenue: Number((incomingPaise / 100).toFixed(2))
-      });
+      dailySales.push({ date: todayStr, revenue: pricePaise / 100 });
     }
 
     const fullDashboard = { ...current, dailySales };
@@ -79,6 +74,7 @@ export const updateDailySales = async (totalPrice) => {
     console.error("Error updating daily sales:", error);
   }
 };
+
 
 
 
