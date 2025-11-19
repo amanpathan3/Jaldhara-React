@@ -1,7 +1,6 @@
 export const updateMonthlySales = async (totalPrice) => {
   try {
-    const incoming = Number(totalPrice) || 0;
-    const incomingPaise = Math.round(incoming * 100);
+    const incomingPaise = Math.round(Number(totalPrice) * 100);
 
     const today = new Date();
     const currentMonth = today.toLocaleString("en-US", { month: "short" }); // e.g. "Nov"
@@ -15,14 +14,10 @@ export const updateMonthlySales = async (totalPrice) => {
     const idx = monthlySales.findIndex(m => m.month === currentMonth);
 
     if (idx !== -1) {
-      const existingPaise = Math.round((Number(monthlySales[idx].revenue) || 0) * 100);
-      const newPaise = existingPaise + incomingPaise;
-      monthlySales[idx].revenue = Number((newPaise / 100).toFixed(2));
+      const existingPaise = Math.round(Number(monthlySales[idx].revenue) * 100);
+      monthlySales[idx].revenue = Number(((existingPaise + incomingPaise) / 100).toFixed(2));
     } else {
-      monthlySales.push({
-        month: currentMonth,
-        revenue: Number((incomingPaise / 100).toFixed(2))
-      });
+      monthlySales.push({ month: currentMonth, revenue: Number((incomingPaise / 100).toFixed(2)) });
     }
 
     const fullDashboard = { ...current, monthlySales };
@@ -40,7 +35,7 @@ export const updateMonthlySales = async (totalPrice) => {
 
 export const updateDailySales = async (totalPrice) => {
   try {
-    const pricePaise = Math.round(totalPrice * 100); // convert to integer paise
+    const incomingPaise = Math.round(Number(totalPrice) * 100);
 
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -52,15 +47,15 @@ export const updateDailySales = async (totalPrice) => {
     const dashboard = await response.json();
     const current = Array.isArray(dashboard) ? dashboard[0] : dashboard;
 
-    const dailySales = Array.isArray(current.dailySales) ? current.dailySales : [];
+    const dailySales = Array.isArray(current.dailySales) ? [...current.dailySales] : [];
 
-    const index = dailySales.findIndex(item => item.date === todayStr);
+    const idx = dailySales.findIndex(d => d.date === todayStr);
 
-    if (index !== -1) {
-      const existingPaise = Math.round(dailySales[index].revenue * 100);
-      dailySales[index].revenue = (existingPaise + pricePaise) / 100;
+    if (idx !== -1) {
+      const existingPaise = Math.round(Number(dailySales[idx].revenue) * 100);
+      dailySales[idx].revenue = Number(((existingPaise + incomingPaise) / 100).toFixed(2));
     } else {
-      dailySales.push({ date: todayStr, revenue: pricePaise / 100 });
+      dailySales.push({ date: todayStr, revenue: Number((incomingPaise / 100).toFixed(2)) });
     }
 
     const fullDashboard = { ...current, dailySales };
@@ -76,8 +71,6 @@ export const updateDailySales = async (totalPrice) => {
 };
 
 
-
-
 export const updateCategorySales = async (selectedProducts) => {
   try {
     if (!Array.isArray(selectedProducts) || selectedProducts.length === 0) return;
@@ -88,22 +81,20 @@ export const updateCategorySales = async (selectedProducts) => {
 
     const categorySales = Array.isArray(current.categorySales) ? [...current.categorySales] : [];
 
-    // Map existing categories to paise
     const catMap = new Map();
     categorySales.forEach(c => {
-      catMap.set(c.category, Math.round((Number(c.revenue) || 0) * 100));
+      catMap.set(c.category, Math.round(Number(c.revenue) * 100));
     });
 
-    // Add incoming products (sum per category in the batch)
     selectedProducts.forEach(prod => {
       const cat = prod.pCategory;
       const priceNum = Number(prod.finalPrice) || 0;
-      const incomingPaise = Math.round(priceNum * 100);
-      const prev = catMap.get(cat) || 0;
-      catMap.set(cat, prev + incomingPaise);
+      const quantity = Number(prod.quantity) || 1;
+      const incomingPaise = Math.round(priceNum * 100) * quantity;
+      const prevPaise = catMap.get(cat) || 0;
+      catMap.set(cat, prevPaise + incomingPaise);
     });
 
-    // Build updated array: keep existing order, then new categories
     const updatedCategorySales = [];
     categorySales.forEach(c => {
       const paise = catMap.get(c.category) || 0;
@@ -125,4 +116,3 @@ export const updateCategorySales = async (selectedProducts) => {
     console.error("Error updating category sales:", error);
   }
 };
-
