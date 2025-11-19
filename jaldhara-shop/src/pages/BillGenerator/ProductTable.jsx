@@ -1,9 +1,7 @@
 import { Edit, Trash2 } from "lucide-react";
 import { sendCustomerData } from "../../utils/sendCustomerDetails";
 import { handleGeneratePDF } from "../../utils/pdfGenerator";
-import { updateMonthlySales } from "../../utils/updateDashboardData";
-import { updateDailySales } from "../../utils/updateDashboardData";
-import { updateCategorySales } from "../../utils/updateDashboardData";
+import { updateDashboard } from "../../utils/updateDashboardData";
 export function ProductTable({ selectedProduct, setSelectedProduct, savedCustomer, products }) {
   const handleDelete = (index) => {
     setSelectedProduct(selectedProduct.filter((_, i) => i !== index));
@@ -89,22 +87,23 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
         </table>
 
         <div className="text-right mt-4 flex gap-5">
-          <button
-              onClick={async () => {
-    try {
-      await sendCustomerData(savedCustomer, selectedProduct, products);
-      await updateMonthlySales(totalPrice);
-      await updateDailySales(totalPrice);
-    } catch (err) {
-      console.error(err);
-    }
-  }}
+         <button
+          onClick={async () => {
+            try {
+              await sendCustomerData(savedCustomer, selectedProduct, products);
 
+              // 🚨 ONLY ONE UPDATE FUNCTION NOW
+              await updateDashboard(selectedProduct, totalPrice);
 
-            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 cursor-pointer w-full sm:w-auto"
-          >
-            Save Customer Details
-          </button>
+            } catch (err) {
+              console.error(err);
+            }
+          }}
+          className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 cursor-pointer w-full sm:w-auto"
+        >
+          Save Customer Details
+        </button>
+
           <button
             onClick={() => {
               handleGeneratePDF(savedCustomer, selectedProduct, products);
