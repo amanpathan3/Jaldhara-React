@@ -1,4 +1,5 @@
 export const updateDashboard = async (selectedProducts, totalPrice) => {
+  console.log("Aman donnnn...")
   try {
     // Convert total price to paise (avoid decimals)
     const incomingPaise = Math.round(Number(totalPrice) * 100);
@@ -28,7 +29,6 @@ export const updateDashboard = async (selectedProducts, totalPrice) => {
     } else {
       dailySales.push({ date: todayStr, revenue: incomingPaise / 100 });
     }
-    console.log("Aman donnnn...")
 
     // ==========================
     // 2️⃣ UPDATE MONTHLY SALES
