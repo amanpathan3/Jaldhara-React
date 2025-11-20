@@ -7,7 +7,7 @@ export function HomePage() {
     return (
         <>
             <Header />
-            <div className="relative w-full h-[40vh] sm:h-[40vh] md:h-[60vh] mt-16">
+            <div className="relative w-full h-[40vh] sm:h-[40vh] md:h-[37vh] mt-16">
                 <img
                     src={PlumbingImg}
                     alt="plumbing-img"
