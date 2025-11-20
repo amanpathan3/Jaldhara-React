@@ -29,7 +29,7 @@ export default function DailySalesChart({ data }) {
     datasets: [
       {
         label: "Daily Revenue",
-        data: data.map((d) => d.totalSales), // FIXED HERE
+        data: data.map((d) => d.revenue), // ✅ FIXED
         borderColor: "#2563eb",
         backgroundColor: "rgba(37, 99, 235, 0.1)",
         tension: 0.4,
