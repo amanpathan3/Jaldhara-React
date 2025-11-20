@@ -17,9 +17,15 @@ export function Dashboard() {
       try {
         const data = await getDashboardData();
 
-        setDaily(data.daily || []);
-        setMonthly(data.monthly || []);
-        setCategory(data.category || []);
+        // setDaily(data.daily || []);
+        // setMonthly(data.monthly || []);
+        // setCategory(data.category || []);
+        const dashboard = Array.isArray(data) ? data[0] : data;
+
+        setDaily(dashboard.daily || []);
+        setMonthly(dashboard.monthly || []);
+        setCategory(dashboard.category || []);
+
       } catch (err) {
         console.error("Dashboard fetch failed:", err);
       } finally {
