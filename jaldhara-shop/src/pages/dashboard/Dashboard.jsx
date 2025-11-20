@@ -39,7 +39,10 @@ export function Dashboard() {
   if (loading)
     return <p className="text-center mt-10">Loading Dashboard...</p>;
 
-  const totalMonthly = monthly.reduce((sum, m) => sum + (m.revenue || 0), 0);
+  const currentMonth = new Date().toLocaleString("en-US", { month: "short" }); // e.g., "Nov"
+  const thisMonthSale = monthly.find((m) => m.month === currentMonth);
+  const totalMonthly = thisMonthSale ? thisMonthSale.revenue : 0;
+
   const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
   const todaySale = daily.find((d) => d.date === today);
   const totalDaily = todaySale ? todaySale.revenue : 0;
