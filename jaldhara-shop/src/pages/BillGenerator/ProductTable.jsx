@@ -96,19 +96,15 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
               try {
                 // 1️⃣ Save customer data first
                 await sendCustomerData(savedCustomer, selectedProduct, products);
-                console.log("📌 Customer Data Saved");
 
                 // 2️⃣ Update daily sales
                 await updateDailySales(totalPrice);
-                console.log("📌 Daily Sales Updated");
 
                 // 3️⃣ Update monthly sales
                 await updateMonthlySales(totalPrice);
-                console.log("📌 Monthly Sales Updated");
 
                 // 4️⃣ Update category sales
                 await updateCategorySales(selectedProduct);
-                console.log("📌 Category Sales Updated");
 
               } catch (err) {
                 console.error("❌ Error updating dashboard:", err);

@@ -17,7 +17,6 @@ export function Dashboard() {
       try {
         const data = await getDashboardData();
 
-        // MongoDB structure
         setDaily(data.daily || []);
         setMonthly(data.monthly || []);
         setCategory(data.category || []);
@@ -43,7 +42,7 @@ export function Dashboard() {
       <Header />
       <div className="min-h-screen w-full bg-gradient-to-b from-gray-50 to-gray-100 flex justify-center items-center">
         <div className="w-full max-w-7xl p-6 mt-16 space-y-8">
-          
+
           <h1 className="text-3xl font-bold text-gray-700 text-center mb-8">
             Jaldhara Supplier Dashboard
           </h1>
