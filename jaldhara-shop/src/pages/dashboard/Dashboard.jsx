@@ -34,7 +34,7 @@ export function Dashboard() {
     return <p className="text-center mt-10">Loading Dashboard...</p>;
 
   const totalMonthly = monthly.reduce((sum, m) => sum + (m.revenue || 0), 0);
-  const totalDaily = daily.reduce((sum, d) => sum + (d.totalSales || 0), 0);
+  const totalDaily = daily.reduce((sum, d) => sum + (d.revenue || 0), 0);
   const totalCategory = category.reduce((sum, c) => sum + (c.revenue || 0), 0);
 
   return (
