@@ -1,5 +1,5 @@
 import { Header } from "../../component/Header";
-import PlumbingImg from "../../assets/plumbing.jpg";
+import PlumbingImg from "../../assets/plumbing.png";
 import { Footer } from "../../component/Footer";
 import { Carts } from "./Carts";
 
@@ -13,9 +13,6 @@ export function HomePage() {
                     alt="plumbing-img"
                     className="w-full h-full object-cover brightness-85"
                 />
-
-
-
                 {/* Text Overlay */}
                 <div className="absolute inset-0 flex flex-col justify-center items-start text-white px-10 md:px-20">
                     <h3 className="text-xl md:text-4xl font-bold mb-4 w-6/12">
