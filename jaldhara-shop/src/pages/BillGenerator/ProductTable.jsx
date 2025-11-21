@@ -96,7 +96,7 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
               try {
                 // 1️⃣ Save customer data first
                 await sendCustomerData(savedCustomer, selectedProduct, products);
-
+                alert("Customer Data Save Successfully");
                 // 2️⃣ Update daily sales
                 await updateDailySales(totalPrice);
 
@@ -118,6 +118,7 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
               onClick={async () => {
                 try {
                   await reduceStock(selectedProduct, products);
+                  alert("Stock Updated");
                 } catch (err) {
                   console.error("❌ Error in reducing stock:", err);
                 }

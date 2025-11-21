@@ -11,7 +11,7 @@ export default function CategorySalesChart({ data }) {
       {
         label: "Category Revenue",
         data: data.map((c) => c.revenue),
-        backgroundColor: ["#3b82f6", "#6366f1", "#10b981", "#f59e0b"], // blue/green/yellow theme
+        backgroundColor: ["#3b82f6","#10b981","#facc15","#6b7280"], // blue/green/yellow theme
         hoverOffset: 10,
       },
     ],
