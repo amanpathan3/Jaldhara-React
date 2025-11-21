@@ -4,7 +4,7 @@ import { handleGeneratePDF } from "../../utils/pdfGenerator";
 import { updateCategorySales} from "../../utils/updateDashboardData";
 import { updateDailySales } from "../../utils/updateDashboardData";
 import { updateMonthlySales } from "../../utils/updateDashboardData";
-
+import { reduceStock } from "../../utils/updateStock";
 
 export function ProductTable({ selectedProduct, setSelectedProduct, savedCustomer, products }) {
   const handleDelete = (index) => {
@@ -114,15 +114,20 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
           >
             Save Customer Details
           </button>
-
-
           <button
-            onClick={() => {
-              handleGeneratePDF(savedCustomer, selectedProduct, products);
-            }}
+              onClick={async () => {
+                try {
+                  // 1️⃣ Generate PDF
+                  await handleGeneratePDF(savedCustomer, selectedProduct, products);
 
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 w-full sm:w-auto"
-          >
+                  // 2️⃣ Reduce stock for sold products
+                  await reduceStock(selectedProduct, products);
+                } catch (err) {
+                  console.error("❌ Error in generating PDF or reducing stock:", err);
+                }
+              }}
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 w-full sm:w-auto"
+            >
             Generate PDF
           </button>
         </div>
