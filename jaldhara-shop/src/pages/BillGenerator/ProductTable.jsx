@@ -122,7 +122,7 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
                   console.error("❌ Error in reducing stock:", err);
                 }
               }}
-              className="bg-red-400 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-red-600 w-full sm:w-auto"
+              className="bg-red-500 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-red-700 w-full sm:w-auto"
             >
             Update Stock
           </button>
