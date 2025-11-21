@@ -58,7 +58,7 @@ export function Carts() {
                             <p className="text-gray-600 mb-4">
                                 Manage your product Stocks — add, edit, or delete products stocks easily.
                             </p>
-                            <a href="#" className="text-teal-600 hover:underline font-medium">
+                            <a href="/stocks" className="text-teal-600 hover:underline font-medium">
                                 Manage Stocks →
                             </a>
                         </div>

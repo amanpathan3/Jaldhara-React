@@ -8,7 +8,8 @@ const ProductSchema = new mongoose.Schema({
   pGst: Number,
   pDiscount: Number,
   pFinalPrice: Number,
-  pCategory: String
-});
+  pCategory: String,
+  pStock: Number
+})
 
 module.exports = mongoose.model("Product", ProductSchema);

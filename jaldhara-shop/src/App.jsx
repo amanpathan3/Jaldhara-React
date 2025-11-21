@@ -6,6 +6,7 @@ import { HomePage } from "./pages/Home/HomePage";
 import { ProductsPage } from "./pages/productsTable/ProductsPage";
 import { BillPage } from "./pages/BillGenerator/BillPage";
 import { CustomerManagement } from "./pages/cutomerDetails/CustomerPage";
+import ManageStock from "./pages/ManageStock/ManageStock";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/bill" element={<BillPage />} />
           <Route path="/customer-details" element={<CustomerManagement />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/stocks" element={<ManageStock />} />
         </Route>
 
         {/* Redirect unknown pages */}
