@@ -54,7 +54,7 @@ export function Carts() {
                         </div>
                         {/* Manage Stocks */}
                         <div className="bg-white shadow-lg rounded-2xl p-6 hover:scale-105 transform transition duration-300 cursor-pointer">
-                            <h3 className="text-xl font-semibold mb-3 text-teal-600">Customer Records</h3>
+                            <h3 className="text-xl font-semibold mb-3 text-teal-600">Manage Stocks</h3>
                             <p className="text-gray-600 mb-4">
                                 Manage your product Stocks — add, edit, or delete products stocks easily.
                             </p>

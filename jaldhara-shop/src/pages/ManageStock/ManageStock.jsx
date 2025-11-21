@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const API = "https://jaldhara-react-1.onrender.com/api/products";
@@ -8,12 +8,20 @@ export default function ManageStock() {
   const [stockInput, setStockInput] = useState({});
 
   useEffect(() => {
-    loadProducts();
+    fetchData();
   }, []);
 
-  const loadProducts = async () => {
-    const res = await axios.get(API);
-    setProducts(res.data);
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(API);
+      setProducts(res.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  const refreshProducts = () => {
+    fetchData();
   };
 
   const updateStock = async (id) => {
@@ -25,64 +33,72 @@ export default function ManageStock() {
     }
 
     await axios.put(`${API}/stock/${id}`, { addStock });
-
     alert("Stock Updated!");
-    loadProducts(); // refresh
+    refreshProducts(); // refresh table
   };
 
   return (
     <div className="p-6 md:p-12 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold text-blue-600 mb-6 text-center">
+      <h1 className="text-3xl font-bold text-center mb-8 text-blue-600">
         Manage Product Stock
       </h1>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white rounded-xl shadow-md overflow-hidden">
-          <thead className="bg-blue-100">
+      <div className="overflow-x-auto shadow-md rounded-lg bg-white">
+        <table className="min-w-full border border-gray-200">
+          <thead className="bg-blue-600 text-white">
             <tr>
-              <th className="text-left py-3 px-6 text-gray-700 font-semibold">Name</th>
-              <th className="text-left py-3 px-6 text-gray-700 font-semibold">Size</th>
-              <th className="text-left py-3 px-6 text-gray-700 font-semibold">Current Stock</th>
-              <th className="text-left py-3 px-6 text-gray-700 font-semibold">Add Stock</th>
-              <th className="text-left py-3 px-6 text-gray-700 font-semibold">Action</th>
+              <th className="py-3 px-4 text-left">Sr.No</th>
+              <th className="py-3 px-4 text-left">Product Name</th>
+              <th className="py-3 px-4 text-left">Size</th>
+              <th className="py-3 px-4 text-left">Current Stock</th>
+              <th className="py-3 px-4 text-left">Add Stock</th>
+              <th className="py-3 px-4 text-left">Action</th>
             </tr>
           </thead>
-
           <tbody>
-            {products.map((p) => (
-              <tr
-                key={p.id}
-                className="border-b hover:bg-blue-50 transition-colors duration-200"
-              >
-                <td className="py-3 px-6">{p.pName}</td>
-                <td className="py-3 px-6">{p.pSize}</td>
-                <td className="py-3 px-6">{p.pStock}</td>
+            {products.length > 0 ? (
+              products.map((product, index) => (
+                <tr
+                  key={product.id}
+                  className="border-b hover:bg-gray-100 transition duration-200"
+                >
+                  <td className="py-3 px-4">{index + 1}</td>
+                  <td className="py-3 px-4">{product.pName}</td>
+                  <td className="py-3 px-4">{product.pSize}</td>
+                  <td className="py-3 px-4">{product.pStock}</td>
 
-                <td className="py-3 px-6">
-                  <input
-                    type="number"
-                    min="0"
-                    className="border border-gray-300 rounded px-3 py-1 w-24 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="Qty"
-                    onChange={(e) =>
-                      setStockInput({
-                        ...stockInput,
-                        [p.id]: e.target.value,
-                      })
-                    }
-                  />
-                </td>
+                  <td className="py-3 px-4">
+                    <input
+                      type="number"
+                      min="0"
+                      placeholder="Qty"
+                      className="border border-gray-300 rounded px-3 py-1 w-24 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      onChange={(e) =>
+                        setStockInput({
+                          ...stockInput,
+                          [product.id]: e.target.value,
+                        })
+                      }
+                    />
+                  </td>
 
-                <td className="py-3 px-6">
-                  <button
-                    onClick={() => updateStock(p.id)}
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-200"
-                  >
-                    Update
-                  </button>
+                  <td className="p-2 flex justify-center gap-2">
+                    <button
+                      onClick={() => updateStock(product.id)}
+                      className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 transition-colors duration-200"
+                    >
+                      Update
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="text-center py-6 text-gray-500 italic">
+                  No products found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
