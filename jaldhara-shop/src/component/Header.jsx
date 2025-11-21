@@ -100,7 +100,7 @@ const navigate = useNavigate();
             Customer Details
           </a>
           <a
-            href="#"
+            href="/stocks"
             className="hover:text-blue-600 transition-colors"
             onClick={() => setIsOpen(false)}
           >
