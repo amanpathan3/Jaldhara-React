@@ -9,6 +9,7 @@ export function AddNewProduct({ refreshProducts }) {
     gst: "",
     discount: "",
     category: "",
+    stock : "0"
   });
 
   const handleAddProduct = async () => {
@@ -32,6 +33,7 @@ export function AddNewProduct({ refreshProducts }) {
       pDiscount: parseFloat(product.discount) || 0,
       pFinalPrice: parseFloat(finalPrice),
       pCategory: product.category || "Others",
+      pStock : Number(stock) || 0
     };
 
 
