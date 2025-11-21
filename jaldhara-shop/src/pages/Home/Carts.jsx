@@ -52,6 +52,16 @@ export function Carts() {
                                 View Customers →
                             </a>
                         </div>
+                        {/* Manage Stocks */}
+                        <div className="bg-white shadow-lg rounded-2xl p-6 hover:scale-105 transform transition duration-300 cursor-pointer">
+                            <h3 className="text-xl font-semibold mb-3 text-teal-600">Customer Records</h3>
+                            <p className="text-gray-600 mb-4">
+                                Manage your product Stocks — add, edit, or delete products stocks easily.
+                            </p>
+                            <a href="#" className="text-teal-600 hover:underline font-medium">
+                                Manage Stocks →
+                            </a>
+                        </div>
                     </div>
                 </div>
             </section>

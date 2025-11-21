@@ -99,6 +99,13 @@ const navigate = useNavigate();
           >
             Customer Details
           </a>
+          <a
+            href="#"
+            className="hover:text-blue-600 transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            Manage Stocks
+          </a>
            <button
     onClick={async () => {
       await signOut(auth);    // logout user
