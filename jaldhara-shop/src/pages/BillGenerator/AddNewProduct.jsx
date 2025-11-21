@@ -8,8 +8,7 @@ export function AddNewProduct({ refreshProducts }) {
     price: "",
     gst: "",
     discount: "",
-    category: "",
-    stock : "0"
+    category: ""
   });
 
   const handleAddProduct = async () => {
@@ -17,6 +16,7 @@ export function AddNewProduct({ refreshProducts }) {
       alert("Please fill all required fields!");
       return;
     }
+
     const totalWithGst =
       parseFloat(product.price) +
       (parseFloat(product.price) * (parseFloat(product.gst) / 100));
@@ -33,29 +33,36 @@ export function AddNewProduct({ refreshProducts }) {
       pDiscount: parseFloat(product.discount) || 0,
       pFinalPrice: parseFloat(finalPrice),
       pCategory: product.category || "Others",
-      pStock : Number(stock) || 0
+      pStock: 0 // initial stock set to 0
     };
 
+    try {
+      const response = await fetch(
+        "https://jaldhara-react-1.onrender.com/api/products",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newProduct)
+        }
+      );
 
-    const response = await fetch("https://jaldhara-react-1.onrender.com/api/products", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newProduct),
-    });
+      if (response.ok) {
+        alert("✅ Product added successfully!");
+        setProduct({
+          name: "",
+          size: "",
+          price: "",
+          gst: "",
+          discount: "",
+          category: ""
+        });
 
-    if (response.ok) {
-      alert("✅ Product added successfully!");
-      setProduct({
-        name: "",
-        size: "",
-        price: "",
-        gst: "",
-        discount: "",
-        category: "",
-      });
-
-      // 🔥 Refresh the product list
-      refreshProducts();
+        // Refresh the product list
+        refreshProducts();
+      }
+    } catch (error) {
+      console.error("Error adding product:", error);
+      alert("❌ Failed to add product");
     }
   };
 
@@ -97,9 +104,7 @@ export function AddNewProduct({ refreshProducts }) {
               placeholder="Price"
               type="number"
               value={product.price}
-              onChange={(e) =>
-                setProduct({ ...product, price: e.target.value })
-              }
+              onChange={(e) => setProduct({ ...product, price: e.target.value })}
               className="border rounded-lg p-2 w-full"
             />
           </div>
@@ -112,9 +117,7 @@ export function AddNewProduct({ refreshProducts }) {
               placeholder="GST %"
               type="number"
               value={product.gst}
-              onChange={(e) =>
-                setProduct({ ...product, gst: e.target.value })
-              }
+              onChange={(e) => setProduct({ ...product, gst: e.target.value })}
               className="border rounded-lg p-2 w-full"
             />
           </div>
@@ -127,9 +130,7 @@ export function AddNewProduct({ refreshProducts }) {
               placeholder="Discount %"
               type="number"
               value={product.discount}
-              onChange={(e) =>
-                setProduct({ ...product, discount: e.target.value })
-              }
+              onChange={(e) => setProduct({ ...product, discount: e.target.value })}
               className="border rounded-lg p-2 w-full"
             />
           </div>
@@ -138,12 +139,9 @@ export function AddNewProduct({ refreshProducts }) {
             <label className="block text-sm font-medium text-gray-600 mb-1">
               Category:
             </label>
-
             <select
               value={product.category}
-              onChange={(e) =>
-                setProduct({ ...product, category: e.target.value })
-              }
+              onChange={(e) => setProduct({ ...product, category: e.target.value })}
               className="border rounded-lg p-2 w-full"
             >
               <option value="">Select Category</option>
@@ -153,7 +151,6 @@ export function AddNewProduct({ refreshProducts }) {
               <option value="Others">Others</option>
             </select>
           </div>
-
         </div>
 
         <div className="text-right">
