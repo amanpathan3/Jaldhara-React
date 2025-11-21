@@ -62,7 +62,6 @@ export function AddNewProduct({ refreshProducts }) {
       }
     } catch (error) {
       console.error("Error adding product:", error);
-      alert("❌ Failed to add product");
     }
   };
 
