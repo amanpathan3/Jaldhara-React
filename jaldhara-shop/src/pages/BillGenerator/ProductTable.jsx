@@ -117,13 +117,22 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
           <button
               onClick={async () => {
                 try {
-                  // 1️⃣ Generate PDF
-                  await handleGeneratePDF(savedCustomer, selectedProduct, products);
-
-                  // 2️⃣ Reduce stock for sold products
                   await reduceStock(selectedProduct, products);
                 } catch (err) {
-                  console.error("❌ Error in generating PDF or reducing stock:", err);
+                  console.error("❌ Error in reducing stock:", err);
+                }
+              }}
+              className="bg-red-400 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-red-600 w-full sm:w-auto"
+            >
+            Update Stock
+          </button>
+          <button
+              onClick={async () => {
+                try {
+                  // 1️⃣ Generate PDF
+                  await handleGeneratePDF(savedCustomer, selectedProduct, products);
+                } catch (err) {
+                  console.error("❌ Error in generating PDF", err);
                 }
               }}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 w-full sm:w-auto"
