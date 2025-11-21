@@ -32,9 +32,17 @@ export default function ManageStock() {
       return;
     }
 
-    await axios.put(`${API}/stock/${id}`, { addStock });
-    alert("Stock Updated!");
-    refreshProducts(); // refresh table
+    try {
+      await axios.put(`${API}/stock/${id}`, { addStock });
+      alert("Stock Updated!");
+      refreshProducts(); // refresh table
+
+      // Reset input for this product
+      setStockInput((prev) => ({ ...prev, [id]: "" }));
+    } catch (error) {
+      console.error("Error updating stock:", error);
+      alert("Failed to update stock");
+    }
   };
 
   return (
@@ -73,6 +81,7 @@ export default function ManageStock() {
                       min="0"
                       placeholder="Qty"
                       className="border border-gray-300 rounded px-3 py-1 w-24 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={stockInput[product.id] || ""}
                       onChange={(e) =>
                         setStockInput({
                           ...stockInput,

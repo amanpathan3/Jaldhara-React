@@ -1,10 +1,12 @@
 import { Edit, Trash2 } from "lucide-react";
 import { sendCustomerData } from "../../utils/sendCustomerDetails";
 import { handleGeneratePDF } from "../../utils/pdfGenerator";
-import { updateCategorySales} from "../../utils/updateDashboardData";
+import { updateCategorySales } from "../../utils/updateDashboardData";
 import { updateDailySales } from "../../utils/updateDashboardData";
 import { updateMonthlySales } from "../../utils/updateDashboardData";
+import axios from "axios";
 
+const API = "https://jaldhara-react-1.onrender.com/api/products";
 
 export function ProductTable({ selectedProduct, setSelectedProduct, savedCustomer, products }) {
   const handleDelete = (index) => {
@@ -12,16 +14,31 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
   };
 
   const totalPrice = selectedProduct.reduce((total, item) => {
-    const matched = products.find(
-      (p) => p.pName === item.name && p.pSize === item.size
-    );
+    const matched = products.find((p) => p.pName === item.name && p.pSize === item.size);
     if (!matched) return total;
     return total + matched.pFinalPrice * item.quantity;
   }, 0);
 
+  // Function to update stock in backend
+  const deductStock = async () => {
+    try {
+      const itemsToDeduct = selectedProduct.map((item) => {
+        const matched = products.find((p) => p.pName === item.name && p.pSize === item.size);
+        return {
+          id: matched.id,
+          quantity: item.quantity
+        };
+      });
+
+      await axios.put(`${API}/deduct-stock`, { items: itemsToDeduct });
+      console.log("Stock deducted successfully");
+    } catch (err) {
+      console.error("Error deducting stock:", err);
+    }
+  };
+
   return (
     <>
-      {/* Bill Table */}
       <div className="pt-4 overflow-x-auto">
         <div className="w-full p-4">
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-700 mb-6">
@@ -54,13 +71,8 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
             </tr>
           </thead>
           <tbody>
-
             {selectedProduct.map((item, index) => {
-              // Find the matching product object from your product array
-              const matched = products.find(
-                (p) => p.pName === item.name && p.pSize === item.size
-              );
-              // Skip rendering if no match found
+              const matched = products.find((p) => p.pName === item.name && p.pSize === item.size);
               if (!matched) return null;
 
               return (
@@ -83,47 +95,37 @@ export function ProductTable({ selectedProduct, setSelectedProduct, savedCustome
               );
             })}
             <tr className="bg-gray-100 font-semibold text-center">
-              <td colSpan="6" className="p-2 border text-right">Total: ₹{(totalPrice).toFixed(2)}</td>
+              <td colSpan="6" className="p-2 border text-right">Total: ₹{totalPrice.toFixed(2)}</td>
               <td className="p-2 border"></td>
             </tr>
-
           </tbody>
         </table>
 
-        <div className="text-right mt-4 flex gap-5">
-         <button
-         onClick={async () => {
+        <div className="text-right mt-4 flex gap-5 flex-col sm:flex-row">
+          <button
+            onClick={async () => {
               try {
-                // 1️⃣ Save customer data first
+                // 1️⃣ Deduct stock first
+                await deductStock();
+
+                // 2️⃣ Save customer data
                 await sendCustomerData(savedCustomer, selectedProduct, products);
 
-                // 2️⃣ Update daily sales
+                // 3️⃣ Update dashboard data
                 await updateDailySales(totalPrice);
-
-                // 3️⃣ Update monthly sales
                 await updateMonthlySales(totalPrice);
-
-                // 4️⃣ Update category sales
                 await updateCategorySales(selectedProduct);
 
+                // 4️⃣ Generate PDF
+                handleGeneratePDF(savedCustomer, selectedProduct, products);
+
               } catch (err) {
-                console.error("❌ Error updating dashboard:", err);
+                console.error("❌ Error generating bill or updating stock:", err);
               }
             }}
-            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 cursor-pointer w-full sm:w-auto"
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 cursor-pointer w-full sm:w-auto"
           >
-            Save Customer Details
-          </button>
-
-
-          <button
-            onClick={() => {
-              handleGeneratePDF(savedCustomer, selectedProduct, products);
-            }}
-
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 w-full sm:w-auto"
-          >
-            Generate PDF
+            Generate PDF & Update Stock
           </button>
         </div>
       </div>
