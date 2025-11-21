@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import { Header } from "../../component/Header";
 const API = "https://jaldhara-react-1.onrender.com/api/products";
 
 export default function ManageStock() {
@@ -46,7 +46,9 @@ export default function ManageStock() {
   };
 
   return (
-    <div className="p-6 md:p-12 bg-gray-100 min-h-screen">
+    <>
+    <Header />
+    <div className="p-6 md:p-12 bg-gray-100 min-h-screen mt-16">
       <h1 className="text-3xl font-bold text-center mb-8 text-blue-600">
         Manage Product Stock
       </h1>
@@ -112,5 +114,6 @@ export default function ManageStock() {
         </table>
       </div>
     </div>
+    </>
   );
 }
