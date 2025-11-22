@@ -2,7 +2,7 @@ import { Header } from "../../component/Header";
 import PlumbingImg from "../../assets/images.jpg";
 import { Footer } from "../../component/Footer";
 import { Carts } from "./Carts";
-import { Droplet } from "lucide-react";
+import { Pipe } from "lucide-react";
 export function HomePage() {
     return (
         <>
@@ -22,7 +22,7 @@ export function HomePage() {
                 <div className="absolute inset-0 flex flex-col justify-center items-center text-white px-10 md:px-20 text-center">
 
                     {/* Lucide Icon */}
-                    <Droplet className="w-12 h-12 text-blue-400 drop-shadow-2xl mb-3" />
+                    <Pipe className="w-12 h-12 text-blue-400 drop-shadow-2xl mb-3" />
 
                     <h3 className="text-xl md:text-4xl font-bold mb-4">
                         JALDHARA MACHINERY AND PLUMBING MATERIAL
