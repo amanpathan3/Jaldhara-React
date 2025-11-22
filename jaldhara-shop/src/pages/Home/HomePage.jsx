@@ -14,8 +14,8 @@ export function HomePage() {
                     className="w-full h-full object-cover"
                 />
                 {/* Text Overlay */}
-                <div className="absolute inset-0 flex flex-col justify-center items-start text-white px-10 md:px-20">
-                    <h3 className="text-xl md:text-4xl font-bold mb-4 w-6/12">
+                <div className="absolute inset-0 flex flex-col justify-center items-center text-white px-10 md:px-20">
+                    <h3 className="text-xl md:text-4xl font-bold mb-4 w-full">
                         JALDHARA MACHINERY AND PLUMBING MATERIAL
                     </h3>
                     <p className="text-lg md:text-2xl mb-6">
