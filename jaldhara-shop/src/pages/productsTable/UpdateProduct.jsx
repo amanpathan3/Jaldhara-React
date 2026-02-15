@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export function UpdateProduct( refreshProducts ) {
+export function UpdateProduct( {refreshProducts} ) {
   const [productNames, setProductNames] = useState([]);
   const [selectedName, setSelectedName] = useState("");
   const [discount, setDiscount] = useState("");
@@ -34,6 +34,7 @@ export function UpdateProduct( refreshProducts ) {
 
       alert("Discount Updated Successfully ✅");
       setDiscount("");
+      refreshProducts();
     } catch (err) {
       console.error(err);
       alert("Error updating discount");
@@ -84,10 +85,7 @@ export function UpdateProduct( refreshProducts ) {
         {/* Update Button */}
         <div className="flex justify-end sm:self-end w-full sm:w-auto">
           <button
-           onClick={async () => {
-            await handleUpdate();
-            await refreshProducts();
-            }}
+           onClick={handleUpdate}
             className="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 transition-all duration-200 w-full sm:w-auto"
           >
             Update
