@@ -88,7 +88,7 @@ export function UpdateProduct( refreshProducts ) {
             handleUpdate();
             refreshProducts();
             }}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-green-700 transition-all duration-200 w-full sm:w-auto"
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 transition-all duration-200 w-full sm:w-auto"
           >
             Update
           </button>
