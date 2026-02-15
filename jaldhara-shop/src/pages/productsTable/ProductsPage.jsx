@@ -48,7 +48,7 @@ export function ProductsPage() {
       <Header />
       <main className="pt-20 p-6">
         <AddNewProduct />
-        <UpdateProduct />
+        <UpdateProduct refreshProducts={refreshProducts} />
         {editProduct && (
           <EditProductForm
             product={editProduct}

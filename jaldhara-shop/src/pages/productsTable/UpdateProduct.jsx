@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export function UpdateProduct() {
+export function UpdateProduct( refreshProducts ) {
   const [productNames, setProductNames] = useState([]);
   const [selectedName, setSelectedName] = useState("");
   const [discount, setDiscount] = useState("");
@@ -84,8 +84,11 @@ export function UpdateProduct() {
         {/* Update Button */}
         <div className="flex justify-end sm:self-end w-full sm:w-auto">
           <button
-            onClick={handleUpdate}
-            className="bg-green-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-green-700 transition-all duration-200 w-full sm:w-auto"
+           onClick={() => {
+            handleUpdate();
+            refreshProducts();
+            }}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-green-700 transition-all duration-200 w-full sm:w-auto"
           >
             Update
           </button>
