@@ -1,72 +1,4 @@
 
-// const express = require("express");
-// const router = express.Router();
-// const Product = require("../models/productModel");
-
-// // GET all products
-// router.get("/", async (req, res) => {
-//   const products = await Product.find();
-//   res.json(products);
-// });
-
-// // POST - Add new product
-// router.post("/", async (req, res) => {
-//   const last = await Product.findOne().sort({ id: -1 });
-//   const newId = last ? last.id + 1 : 1;
-
-//   const newProduct = new Product({ id: newId, ...req.body });
-//   await newProduct.save();
-
-//   res.json({ message: "Product added", product: newProduct });
-// });
-
-// // PUT - Update product
-// router.put("/:id", async (req, res) => {
-//   const updated = await Product.findOneAndUpdate(
-//     { id: req.params.id },
-//     req.body,
-//     { new: true }
-//   );
-
-//   if (!updated) return res.status(404).json({ message: "Product not found" });
-//   res.json({ message: "Product updated", product: updated });
-// });
-
-// // UPDATE STOCK
-// router.put("/stock/:id", async (req, res) => {
-//   try {
-//     const { addStock } = req.body;
-
-//     if (addStock === undefined)
-//       return res.status(400).json({ message: "addStock is required" });
-
-//     const product = await Product.findOne({ id: req.params.id });
-
-//     if (!product)
-//       return res.status(404).json({ message: "Product not found" });
-
-//     product.pStock = product.pStock + Number(addStock);
-//     await product.save();
-
-//     res.json({
-//       message: "Stock updated",
-//       updatedStock: product.pStock,
-//     });
-//   } catch (err) {
-//     res.status(500).json({ message: "Error updating stock" });
-//   }
-// });
-
-// // DELETE
-// router.delete("/:id", async (req, res) => {
-//   const deleted = await Product.findOneAndDelete({ id: req.params.id });
-
-//   if (!deleted) return res.status(404).json({ message: "Product not found" });
-//   res.json({ message: "Product deleted" });
-// });
-
-// module.exports = router;
-
 const express = require("express");
 const router = express.Router();
 const Product = require("../models/productModel");
@@ -90,10 +22,18 @@ router.get("/unique-names", async (req, res) => {
 // UPDATE DISCOUNT BY PRODUCT NAME (All sizes)
 router.put("/update-discount", async (req, res) => {
   try {
-    const { productName, discount } = req.body;
+    let { productName, discount } = req.body;
 
-    if (!productName || discount === undefined) {
-      return res.status(400).json({ message: "productName and discount required" });
+    // Convert discount to number
+    discount = Number(discount);
+
+    if (!productName || discount === undefined || isNaN(discount)) {
+      return res.status(400).json({ message: "productName and valid discount required" });
+    }
+
+    // Validate percentage
+    if (discount < 0 || discount > 100) {
+      return res.status(400).json({ message: "Discount must be between 0 and 100" });
     }
 
     const products = await Product.find({ pName: productName });
@@ -103,30 +43,35 @@ router.put("/update-discount", async (req, res) => {
     }
 
     for (let product of products) {
-      const price = product.pPrice;
+      const price = Number(product.pPrice);
+      const gstPercent = Number(product.pGst);
 
-      // GST amount
-      const gstAmount = (price * product.pGst) / 100;
-
-      // Discount amount
+      // 1️⃣ Discount amount (percentage)
       const discountAmount = (price * discount) / 100;
 
-      // Final price formula
-      const finalPrice = price + gstAmount - discountAmount;
+      // 2️⃣ Price after discount
+      const discountedPrice = price - discountAmount;
+
+      // 3️⃣ GST on discounted price
+      const gstAmount = (discountedPrice * gstPercent) / 100;
+
+      // 4️⃣ Final price
+      const finalPrice = discountedPrice + gstAmount;
 
       product.pDiscount = discount;
-      product.pFinalPrice = finalPrice;
+      product.pFinalPrice = Number(finalPrice.toFixed(2));
 
       await product.save();
     }
 
-    res.json({ message: "Discount updated for all product sizes" });
+    res.json({ message: "Discount updated correctly for all product sizes" });
 
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error updating discount" });
   }
 });
+
 
 
 // POST - Add new product
