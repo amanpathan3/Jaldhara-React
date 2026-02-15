@@ -77,6 +77,58 @@ router.get("/", async (req, res) => {
   res.json(products);
 });
 
+// GET UNIQUE PRODUCT NAMES (No duplicate names)
+router.get("/unique-names", async (req, res) => {
+  try {
+    const names = await Product.distinct("pName");
+    res.json(names);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching names" });
+  }
+});
+
+// UPDATE DISCOUNT BY PRODUCT NAME (All sizes)
+router.put("/update-discount", async (req, res) => {
+  try {
+    const { productName, discount } = req.body;
+
+    if (!productName || discount === undefined) {
+      return res.status(400).json({ message: "productName and discount required" });
+    }
+
+    const products = await Product.find({ pName: productName });
+
+    if (products.length === 0) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    for (let product of products) {
+      const price = product.pPrice;
+
+      // GST amount
+      const gstAmount = (price * product.pGst) / 100;
+
+      // Discount amount
+      const discountAmount = (price * discount) / 100;
+
+      // Final price formula
+      const finalPrice = price + gstAmount - discountAmount;
+
+      product.pDiscount = discount;
+      product.pFinalPrice = finalPrice;
+
+      await product.save();
+    }
+
+    res.json({ message: "Discount updated for all product sizes" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error updating discount" });
+  }
+});
+
+
 // POST - Add new product
 router.post("/", async (req, res) => {
   const last = await Product.findOne().sort({ id: -1 });

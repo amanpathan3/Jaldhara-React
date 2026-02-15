@@ -3,6 +3,7 @@ import { Edit, Trash2 } from "lucide-react";
 import { Header } from "../../component/Header";
 import { AddNewProduct } from "../BillGenerator/AddNewProduct";
 import { EditProductForm } from "./EditProductForm";
+import { UpdateProduct } from "./UpdateProduct";
 export function ProductsPage() {
   const [editProduct, setEditProduct] = useState(null);
 
@@ -47,6 +48,7 @@ export function ProductsPage() {
       <Header />
       <main className="pt-20 p-6">
         <AddNewProduct />
+        <UpdateProduct />
         {editProduct && (
           <EditProductForm
             product={editProduct}
