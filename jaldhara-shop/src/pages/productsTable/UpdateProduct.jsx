@@ -1,36 +1,41 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export function UpdateProduct( {refreshProducts} ) {
-  const [productNames, setProductNames] = useState([]);
-  const [selectedName, setSelectedName] = useState("");
+export function UpdateCategoryDiscount({ refreshProducts }) {
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [discount, setDiscount] = useState("");
 
-  // Fetch unique product names from backend
+  // Fetch unique categories
   useEffect(() => {
-    const fetchNames = async () => {
+    const fetchCategories = async () => {
       try {
-        const res = await axios.get("https://jaldhara-react-1.onrender.com/api/products/unique-names");
-        setProductNames(res.data);
+        const res = await axios.get(
+          "https://jaldhara-react-1.onrender.com/api/products/unique-categories"
+        );
+        setCategories(res.data);
       } catch (err) {
-        console.error("Error fetching product names");
+        console.error("Error fetching categories");
       }
     };
 
-    fetchNames();
+    fetchCategories();
   }, []);
 
   const handleUpdate = async () => {
-    if (!selectedName || discount === "") {
-      alert("Please select product and enter discount");
+    if (!selectedCategory || discount === "") {
+      alert("Please select category and enter discount");
       return;
     }
 
     try {
-      await axios.put("https://jaldhara-react-1.onrender.com/api/products/update-discount", {
-        productName: selectedName,
-        discount: Number(discount),
-      });
+      await axios.put(
+        "https://jaldhara-react-1.onrender.com/api/products/update-discount-by-category",
+        {
+          category: selectedCategory,
+          discount: Number(discount),
+        }
+      );
 
       alert("Discount Updated Successfully ✅");
       setDiscount("");
@@ -43,34 +48,34 @@ export function UpdateProduct( {refreshProducts} ) {
 
   return (
     <div className="space-y-4 p-4 w-full">
-      <h2 className="text-lg sm:text-xl font-semibold text-gray-800 text-center sm:text-left">
-        Update Product Discount
+      <h2 className="text-lg font-semibold text-gray-800">
+        Update Discount By Category
       </h2>
 
-      <div className="flex flex-col sm:flex-row flex-wrap gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
 
-        {/* Product Name */}
+        {/* Category */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-gray-600 mb-1">
-            Product Name
+          <label className="text-sm font-medium mb-1">
+            Category
           </label>
           <select
-            className="border rounded-lg p-2 w-full sm:w-48 focus:ring-2 outline-none"
-            value={selectedName}
-            onChange={(e) => setSelectedName(e.target.value)}
+            className="border rounded-lg p-2 w-full sm:w-48"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
           >
-            <option value="">Select Product</option>
-            {productNames.map((name) => (
-              <option key={name} value={name}>
-                {name}
+            <option value="">Select Category</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
               </option>
             ))}
           </select>
         </div>
 
         {/* Discount */}
-        <div className="flex flex-col flex-1 sm:w-1/4">
-          <label className="text-sm font-medium text-gray-600 mb-1">
+        <div className="flex flex-col">
+          <label className="text-sm font-medium mb-1">
             New Discount (%)
           </label>
           <input
@@ -78,15 +83,15 @@ export function UpdateProduct( {refreshProducts} ) {
             placeholder="Enter discount"
             value={discount}
             onChange={(e) => setDiscount(e.target.value)}
-            className="border rounded-lg p-2 w-full focus:ring-2 outline-none"
+            className="border rounded-lg p-2"
           />
         </div>
 
-        {/* Update Button */}
-        <div className="flex justify-end sm:self-end w-full sm:w-auto">
+        {/* Button */}
+        <div className="flex items-end">
           <button
-           onClick={handleUpdate}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 transition-all duration-200 w-full sm:w-auto"
+            onClick={handleUpdate}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
           >
             Update
           </button>

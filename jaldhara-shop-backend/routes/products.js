@@ -9,53 +9,53 @@ router.get("/", async (req, res) => {
   res.json(products);
 });
 
-// GET UNIQUE PRODUCT NAMES (No duplicate names)
-router.get("/unique-names", async (req, res) => {
+router.get("/unique-categories", async (req, res) => {
   try {
-    const names = await Product.distinct("pName");
-    res.json(names);
+    const categories = await Product.distinct("pCategory");
+    res.json(categories);
   } catch (err) {
-    res.status(500).json({ message: "Error fetching names" });
+    res.status(500).json({ message: "Error fetching categories" });
   }
 });
 
-// UPDATE DISCOUNT BY PRODUCT NAME (All sizes)
-router.put("/update-discount", async (req, res) => {
+router.put("/update-discount-by-category", async (req, res) => {
   try {
-    let { productName, discount } = req.body;
+    let { category, discount } = req.body;
 
-    // Convert discount to number
     discount = Number(discount);
 
-    if (!productName || discount === undefined || isNaN(discount)) {
-      return res.status(400).json({ message: "productName and valid discount required" });
+    if (!category || discount === undefined || isNaN(discount)) {
+      return res.status(400).json({
+        message: "Category and valid discount required"
+      });
     }
 
-    // Validate percentage
     if (discount < 0 || discount > 100) {
-      return res.status(400).json({ message: "Discount must be between 0 and 100" });
+      return res.status(400).json({
+        message: "Discount must be between 0 and 100"
+      });
     }
 
-    const products = await Product.find({ pName: productName });
+    const products = await Product.find({ pCategory: category });
 
     if (products.length === 0) {
-      return res.status(404).json({ message: "Product not found" });
+      return res.status(404).json({
+        message: "No products found in this category"
+      });
     }
 
     for (let product of products) {
       const price = Number(product.pPrice);
       const gstPercent = Number(product.pGst);
 
-      // 1️⃣ Discount amount (percentage)
+      // Discount calculation
       const discountAmount = (price * discount) / 100;
-
-      // 2️⃣ Price after discount
       const discountedPrice = price - discountAmount;
 
-      // 3️⃣ GST on discounted price
+      // GST calculation
       const gstAmount = (discountedPrice * gstPercent) / 100;
 
-      // 4️⃣ Final price
+      // Final price
       const finalPrice = discountedPrice + gstAmount;
 
       product.pDiscount = discount;
@@ -64,14 +64,17 @@ router.put("/update-discount", async (req, res) => {
       await product.save();
     }
 
-    res.json({ message: "Discount updated correctly for all product sizes" });
+    res.json({
+      message: `Discount updated for ${products.length} products`
+    });
 
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error updating discount" });
+    res.status(500).json({
+      message: "Error updating discount"
+    });
   }
 });
-
 
 
 // POST - Add new product
