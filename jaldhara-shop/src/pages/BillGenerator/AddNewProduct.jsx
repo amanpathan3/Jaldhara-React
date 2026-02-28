@@ -144,16 +144,16 @@ export function AddNewProduct({ refreshProducts }) {
               className="border rounded-lg p-2 w-full"
             >
               <option value="">Select Category</option>
-              <option value="UPVC">Others</option>
-              <option value="UPVC">Pipe UPVC</option>
-              <option value="UPVC">UPVC Fitting</option>
-              <option value="UPVC">UPVC Brass</option>
-              <option value="CPVC">CPVC Pipe</option>
-              <option value="CPVC">CPVC Fitting</option>
-              <option value="CPVC">CPVC Brass</option>
-              <option value="SWR">SWR Pipe</option>
-              <option value="SWR">SWR Fitting</option>
-              <option value="Others">SWR Others</option>
+              <option value="Others">Others</option>
+              <option value="Pipe UPVC">Pipe UPVC</option>
+              <option value="UPVC Fitting">UPVC Fitting</option>
+              <option value="UPVC Brass">UPVC Brass</option>
+              <option value="CPVC Pipe">CPVC Pipe</option>
+              <option value="CPVC Fitting">CPVC Fitting</option>
+              <option value="CPVC Brass">CPVC Brass</option>
+              <option value="SWR Pipe">SWR Pipe</option>
+              <option value="SWR Fitting">SWR Fitting</option>
+              <option value="SWR Others">SWR Others</option>
             </select>
           </div>
         </div>
